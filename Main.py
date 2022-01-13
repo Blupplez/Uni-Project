@@ -6,7 +6,7 @@ def Access():
     print('1. Login\n2. Sign In\n3. Exit')
 
     option = int(input('\nChoose an option: '))
-    while option != 1 or option !=2 or option !=3:
+    while option != 1 and option !=2 and option !=3:
         print('\nOPTION NOT VALID')
         option = int(input('Choose an option: '))
 
