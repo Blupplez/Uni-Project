@@ -21,12 +21,23 @@ def Access():
 
 # Sign in Page
 def Sign_In():
-    print('Sign In')
+    Clear()
+    Username = input('Username: ')
+    Pwd = input('Password: ')
+    print('\n1. Buyer\n2. Seller')
+    option = int(input('\nChoose an option: '))
+    while option != 1 and option !=2:
+        option = int(input('Choose an option: '))
+    
+    if option == 1:
+        User_Type = 'buyer'
+    else:
+        User_Type = 'seller'
 
 
 # Login Page
 def Login():
-    print('Login')
+    pass
 
 
 # Clear CMD
