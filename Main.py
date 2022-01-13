@@ -1,4 +1,5 @@
 import os
+import sys
 
 # Opens Login & Sign In Page
 def Access():
@@ -9,21 +10,23 @@ def Access():
     option = int(input('\nChoose an option: '))
     while option != 1 and option !=2 and option !=3:
         option = int(input('Choose an option: '))
+    
+    if option == 1:
+        Login()
+    elif option == 2:
+        Sign_In()
+    else:
+        sys.exit()
 
 
-# User sign in info
+# Sign in Page
 def Sign_In():
-    pass
+    print('Sign In')
 
 
-# User login info
+# Login Page
 def Login():
-    pass
-
-
-# Checks user login info
-def Login_Check():
-    pass
+    print('Login')
 
 
 # Clear CMD
