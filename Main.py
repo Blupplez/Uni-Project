@@ -1,5 +1,6 @@
 import os
 import sys
+import Buyer_Page
 
 # Opens Login & Sign In Page
 def Access():
@@ -12,8 +13,10 @@ def Access():
         option = int(input('Choose an option: '))
     
     if option == 1:
+        Clear()
         Login()
     elif option == 2:
+        Clear()
         Sign_In()
     else:
         sys.exit()
@@ -21,7 +24,7 @@ def Access():
 
 # Sign in Page
 def Sign_In():
-    Clear()
+    print('Sign In')
     Username = input('Username: ')
     Pwd = input('Password: ')
     print('\n1. Buyer\n2. Seller')
@@ -34,10 +37,24 @@ def Sign_In():
     else:
         User_Type = 'seller'
 
+    with open('Files/Userdata.txt','a') as user:
+        user.write(f'{Username},{Pwd},{User_Type}\n')
+    
+    Buyer_Page.Start(Username, Pwd)
 
 # Login Page
 def Login():
-    pass
+    print('Login')
+    Username = input('Username: ')
+    Pwd = input('Password: ')
+
+    with open('Files/Userdata.txt','r') as user:
+        for users in user.readlines():
+            i = users.strip().split(',')
+            if (Username in i) and (Pwd in i):
+                Buyer_Page.Start(Username, Pwd)
+            else:
+                Login()
 
 
 # Clear CMD
