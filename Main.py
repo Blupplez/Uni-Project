@@ -50,10 +50,9 @@ def Sign_In():
 # Login Page
 def Login():
     Access = False
-
+    print('Login')
     while Access == False:
-        print('Login')
-        Username = input('Username: ')
+        Username = input('\nUsername: ')
         Pwd = input('Password: ')
 
         with open('Files/Userdata.txt','r') as user:
