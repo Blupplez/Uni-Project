@@ -26,7 +26,7 @@ def Access():
 # Sign in Page
 def Sign_In():
     print('Sign In')
-    Username = input('Username: ')
+    Username = input('\nUsername: ')
     Pwd = input('Password: ')
     print('\n1. Buyer\n2. Seller')
     option = int(input('\nChoose an option: '))
@@ -40,7 +40,7 @@ def Sign_In():
 
     with open('Files/Userdata.txt','a') as user:
         user.write(f'{Username},{Pwd},{User_Type}\n')
-    
+
     if User_Type == 'buyer':
         Buyer_Page.Start(Username, Pwd)
     else:
@@ -66,6 +66,7 @@ def Login():
                     elif usertype == 'seller':
                         Seller_Page.Start(Username, Pwd)
                 else:
+                    print('Wrong Username or Password. Try Again.')
                     Access = False
     
 
