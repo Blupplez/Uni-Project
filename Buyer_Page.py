@@ -19,7 +19,7 @@ def Start(Username, Pwd):
     Menu()
 
 def Menu():
-    print(f'Welcome {USERNAME}')
+    print(f'Welcome {USERNAME} - Buyer')
     print('\n1.Exit')
 
     option = int(input('\nChoose an option: '))
