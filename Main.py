@@ -66,7 +66,6 @@ def Login():
                     elif usertype == 'seller':
                         Seller_Page.Start(Username, Pwd)
                 else:
-                    print('Wrong Username or Password. Try Again.')
                     Access = False
     
 

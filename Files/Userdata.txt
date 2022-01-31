@@ -1,3 +1,2 @@
-Ray,awd,seller
-Imran,pwd,seller
-Tan,pwd,buyer
+Ray,pwd,seller
+Imran,123,seller
