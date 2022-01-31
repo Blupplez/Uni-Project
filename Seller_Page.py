@@ -18,16 +18,31 @@ def Start(Username, Pwd):
                 USERTYPE = UserType
     Menu()
 
+
 def Menu():
-    print(f'Welcome {USERNAME} - Seller')
-    print('\n1.Exit')
+    Clear()
+    print(f'Welcome {USERNAME}')
+    print('\n1.Account Info\n2.Exit')
 
     option = int(input('\nChoose an option: '))
-    while option != 1:
+    while option != 1 and option !=2:
         option = int(input('Choose an option: '))
     
     if option == 1:
+        Account_Info()
+    else:
         Main.Access()
+
+
+def Account_Info():
+    Clear()
+    print(f'Username: {USERNAME}')
+    print(f'Password: {PWD}')
+    print(f'Usertype: {USERTYPE}')
+
+    input('\nPress ENTER to go back')
+    Menu()
+
 
 # Clear CMD
 def Clear():
