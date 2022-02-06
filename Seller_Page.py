@@ -111,3 +111,38 @@ def Account_Change():
 # Clear CMD
 def Clear():
     os.system('cls')
+
+#Seller Page
+def seller_page():
+    global option
+    print("1. Create Product")
+    print("2. Edit Product")
+    print("3. Delete Product")
+    print("4. Exit")
+    
+    option = int(input('\nChoose an option: '))
+    while option != 1 and option !=2 and option !=3:
+        option = int(input('Choose an option: '))
+    
+    if option == 1:
+        create_product()
+    elif option == 2:
+        edit_product()
+    elif option == 3:
+        delete_product()
+    else:
+        sys.exit()
+
+#Create Product
+def create_product():
+    productname=input('Enter your product name: ')
+    productprice=input('Enter your product price: ')
+    productproducedby=input('Enter where your product is produced: ')
+    productexpirydate=input('Enter your product expiry date: ')
+    productquantity=input('Enter your product quantity: ')
+    sellername=input('Enter your seller name: ')
+    cursor.execute(f'INSERT INTO Product VALUES (NULL,"{productname}","{productprice}","{productproducedby}","{productexpirydate},{productquantity},{sellername}")')
+    connection.commit()
+    connection.close()
+    seller_page()
+create_product()
