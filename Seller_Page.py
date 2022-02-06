@@ -145,4 +145,3 @@ def create_product():
     connection.commit()
     connection.close()
     seller_page()
-create_product()
