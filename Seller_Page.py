@@ -1,10 +1,30 @@
 import Main
 import os
 import sys
+import sqlite3
 
 USERNAME = None
 PWD = None
 USERTYPE = None
+productID=None
+productname=None
+productprice=None
+productproducedby=None
+productexpirydate=None
+connection = sqlite3.connect('SellerProduct.db')
+cursor = connection.cursor()
+
+#create database if not exist
+cursor.execute('''CREATE TABLE IF NOT EXISTS Product(
+                productid INTEGER PRIMARY KEY,
+                productname TEXT NOT NULL,
+                productprice REAL NOT NULL,
+                productproducedby TEXT NOT NULL,
+                productexpirydate TEXT NOT NULL,
+                productquantity REAL NOT NULL,
+                sellername TEXT NOT NULL)''')
+connection.commit()
+connection.close()
 
 def Start(Username, Pwd):
     Clear()
