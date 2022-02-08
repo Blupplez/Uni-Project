@@ -6,11 +6,7 @@ import sqlite3
 USERNAME = None
 PWD = None
 USERTYPE = None
-productID=None
-productname=None
-productprice=None
-productproducedby=None
-productexpirydate=None
+
 connection = sqlite3.connect('SellerProduct.db')
 cursor = connection.cursor()
 
@@ -43,14 +39,16 @@ def Start(Username, Pwd):
 def Menu():
     Clear()
     print(f'Welcome {USERNAME}')
-    print('\n1.Account Info\n2.Exit')
+    print('\n1.Account Info\n2.Products\n3.Exit')
 
     option = int(input('\nChoose an option: '))
-    while option != 1 and option !=2:
+    while option != 1 and option != 2 and option != 3:
         option = int(input('Choose an option: '))
     
     if option == 1:
         Account_Info()
+    elif option == 2:
+        Product_Page()
     else:
         Main.Access()
 
@@ -108,13 +106,8 @@ def Account_Change():
     pass
 
 
-# Clear CMD
-def Clear():
-    os.system('cls')
-
 #Seller Page
-def seller_page():
-    global option
+def Product_Page():
     print("1. Create Product")
     print("2. Edit Product")
     print("3. Delete Product")
@@ -125,23 +118,36 @@ def seller_page():
         option = int(input('Choose an option: '))
     
     if option == 1:
-        create_product()
+        Create_Product()
     elif option == 2:
-        edit_product()
+        Edit_Product()
     elif option == 3:
-        delete_product()
+        Delete_Product()
     else:
-        sys.exit()
+        Menu()
 
 #Create Product
-def create_product():
-    productname=input('Enter your product name: ')
-    productprice=input('Enter your product price: ')
-    productproducedby=input('Enter where your product is produced: ')
-    productexpirydate=input('Enter your product expiry date: ')
-    productquantity=input('Enter your product quantity: ')
-    sellername=input('Enter your seller name: ')
+def Create_Product():
+    productname = input('Enter your product name: ')
+    productprice = input('Enter your product price: ')
+    productproducedby = input('Enter where your product is produced: ')
+    productexpirydate = input('Enter your product expiry date: ')
+    productquantity = input('Enter your product quantity: ')
+    sellername = input('Enter your seller name: ')
     cursor.execute(f'INSERT INTO Product VALUES (NULL,"{productname}","{productprice}","{productproducedby}","{productexpirydate},{productquantity},{sellername}")')
     connection.commit()
     connection.close()
-    seller_page()
+    Product_Page()
+
+
+def Edit_Product():
+    pass
+
+
+def Delete_Product():
+    pass
+
+
+# Clear CMD
+def Clear():
+    os.system('cls')
