@@ -7,10 +7,9 @@ USERNAME = None
 PWD = None
 USERTYPE = None
 
+#create database if not exist
 connection = sqlite3.connect('SellerProduct.db')
 cursor = connection.cursor()
-
-#create database if not exist
 cursor.execute('''CREATE TABLE IF NOT EXISTS Product(
                 productid INTEGER PRIMARY KEY,
                 productname TEXT NOT NULL,
@@ -18,6 +17,7 @@ cursor.execute('''CREATE TABLE IF NOT EXISTS Product(
                 productproducedby TEXT NOT NULL,
                 productexpirydate TEXT NOT NULL,
                 productquantity REAL NOT NULL,
+                productcatergory REAL NOT NULL,
                 sellername TEXT NOT NULL)''')
 connection.commit()
 connection.close()
@@ -133,8 +133,11 @@ def Create_Product():
     productproducedby = input('Enter where your product is produced: ')
     productexpirydate = input('Enter your product expiry date: ')
     productquantity = input('Enter your product quantity: ')
+    productcatergory = input('Enter your product catergory: ')
     sellername = input('Enter your seller name: ')
-    cursor.execute(f'INSERT INTO Product(productname,productprice,productproducedby,productexpirydate,productquantity,sellername) VALUES ("{productname}","{productprice}","{productproducedby}","{productexpirydate}","{productquantity}","{sellername}")')
+    connection = sqlite3.connect('SellerProduct.db')
+    cursor = connection.cursor()
+    cursor.execute(f'INSERT INTO Product(productname,productprice,productproducedby,productexpirydate,productquantity,productcatergory,sellername) VALUES ("{productname}","{productprice}","{productproducedby}","{productexpirydate}","{productquantity}","{productcatergory}","{sellername}")')
     connection.commit()
     connection.close()
     Product_Page()
