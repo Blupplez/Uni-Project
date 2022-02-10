@@ -10,17 +10,7 @@ USERTYPE = None
 #create database if not exist
 connection = sqlite3.connect('SellerProduct.db')
 cursor = connection.cursor()
-cursor.execute('''CREATE TABLE IF NOT EXISTS Product(
-                productid INTEGER PRIMARY KEY,
-                productname TEXT NOT NULL,
-                productprice REAL NOT NULL,
-                productproducedby TEXT NOT NULL,
-                productexpirydate TEXT NOT NULL,
-                productquantity REAL NOT NULL,
-                productcatergory REAL NOT NULL,
-                sellername TEXT NOT NULL)''')
-connection.commit()
-connection.close()
+
 
 def Start(Username, Pwd):
     Clear()
@@ -33,6 +23,19 @@ def Start(Username, Pwd):
                 USERNAME = Name
                 PWD = Password
                 USERTYPE = UserType
+    
+    cursor.execute('''CREATE TABLE IF NOT EXISTS Product(
+                productid INTEGER PRIMARY KEY,
+                productname TEXT NOT NULL,
+                productprice REAL NOT NULL,
+                productproducedby TEXT NOT NULL,
+                productexpirydate TEXT NOT NULL,
+                productquantity REAL NOT NULL,
+                productcatergory REAL NOT NULL,
+                sellername TEXT NOT NULL)''')
+    connection.commit()
+    connection.close()
+
     Menu()
 
 
@@ -149,6 +152,53 @@ def Edit_Product():
 
 def Delete_Product():
     pass
+
+def Product_Viewing():
+    print('1. Show Product')
+    print('2. Show New Products')
+    print('3. Show All Products')
+    print('4. Show Product by Catergory')
+    print('5. Back')
+
+    
+    #Show Own Product
+    def Own_Product():
+        cursor.execute('''SELECT productname,sellername FROM Product''')
+        result=cursor.fetchall()
+        print(result)
+        for i in result:
+            print(i)
+        connection.close()
+    
+
+    #Show New Product
+    def New_Product():
+        cursor.execute(''' ''')
+
+
+    #Show All Product
+    def All_Product():
+        cursor.execute('''SELECT productname,sellername FROM Product''')
+        result = cursor.fetchall()
+        print(result)
+
+
+    #Show Product in Catergory
+    def Cat_Product():
+        cursor.execute(''' ''')
+
+
+    option = int(input('Choose an option: '))
+    if option == 1:
+        Own_Product()
+    elif option == 2:
+        New_Product()
+    elif option == 3:
+        All_Product()
+    elif option == 4:
+        Cat_Product()
+    else:
+        Product_Page()
 
 
 # Clear CMD
