@@ -115,7 +115,7 @@ def Product_Page():
     print("1. Create Product")
     print("2. Edit Product")
     print("3. Delete Product")
-    print("4. View Product")
+    print("4. View Own Product")
     print("5. Exit")
     
     option = int(input('\nChoose an option: '))
@@ -129,7 +129,7 @@ def Product_Page():
     elif option == 3:
         Delete_Product()
     elif option == 4:
-        Product_Viewing()
+        Own_Product()
     else:
         Menu()
 
@@ -159,55 +159,9 @@ def Edit_Product():
 def Delete_Product():
     pass
 
-
-def Product_Viewing():
-    Clear()
-    print('1. Show Product')
-    print('2. Show New Products')
-    print('3. Show All Products')
-    print('4. Show Product by Catergory')
-    print('5. Back')
-
-    
-    #Show Own Product
-    def Own_Product():
-        cursor.execute('''SELECT productname,sellername FROM Product''')
-        result=cursor.fetchall()
-        print(result)
-        for i in result:
-            print(i)
-        connection.close()
-    
-
-    #Show New Product
-    def New_Product():
-        cursor.execute(''' ''')
-
-
-    #Show All Product
-    def All_Product():
-        cursor.execute('''SELECT productname,sellername FROM Product''')
-        result = cursor.fetchall()
-        print(result)
-
-
-    #Show Product in Catergory
-    def Cat_Product():
-        cursor.execute(''' ''')
-
-
-    option = int(input('Choose an option: '))
-    if option == 1:
-        Own_Product()
-    elif option == 2:
-        New_Product()
-    elif option == 3:
-        All_Product()
-    elif option == 4:
-        Cat_Product()
-    else:
-        Product_Page()
-
+#Show Own Product
+def Own_Product():
+    pass
 
 # Clear CMD
 def Clear():

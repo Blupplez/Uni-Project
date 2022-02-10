@@ -1,10 +1,14 @@
 import Main
 import os
 import sys
+import sqlite3
 
 USERNAME = None
 PWD = None
 USERTYPE = None
+
+connection = sqlite3.connect('SellerProduct.db')
+cursor = connection.cursor()
 
 def Start(Username, Pwd):
     Clear()
@@ -23,14 +27,16 @@ def Start(Username, Pwd):
 def Menu():
     Clear()
     print(f'Welcome {USERNAME}')
-    print('\n1.Account Info\n2.Exit')
+    print('\n1.Account Info\n2.View Product\n3.Exit')
 
     option = int(input('\nChoose an option: '))
-    while option != 1 and option !=2:
+    while option != 1 and option !=2 and option !=3:
         option = int(input('Choose an option: '))
     
     if option == 1:
         Account_Info()
+    elif option == 2:
+        View_Product()
     else:
         Main.Access()
 
@@ -86,6 +92,29 @@ def Account_Del():
 
 def Account_Change():
     pass
+
+def View_Product():
+    print ('\n1.New Product \n2.All Product \n3.Product Category')
+    option = int(input('Choose an option: '))
+    def New_Product():
+        pass
+
+    def All_Product():
+        connection = sqlite3.connect('SellerProduct.db')
+        cursor = connection.cursor()
+        cursor.execute('''SELECT * FROM Product''')
+        result=cursor.fetchall()
+        print(result)
+
+    def Cat_Product():
+        pass
+
+    if option == 1:
+        New_Product()
+    elif option == 2:
+        All_Product()
+    else:
+        Cat_Product()
 
 
 # Clear CMD
