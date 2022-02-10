@@ -115,7 +115,8 @@ def Product_Page():
     print("1. Create Product")
     print("2. Edit Product")
     print("3. Delete Product")
-    print("4. Exit")
+    print("4. View Product")
+    print("5. Exit")
     
     option = int(input('\nChoose an option: '))
     while option != 1 and option !=2 and option !=3:
@@ -127,8 +128,11 @@ def Product_Page():
         Edit_Product()
     elif option == 3:
         Delete_Product()
+    elif option == 4:
+        Product_Viewing()
     else:
         Menu()
+
 
 #Add new product to database
 def Create_Product():
@@ -154,6 +158,7 @@ def Edit_Product():
 
 def Delete_Product():
     pass
+
 
 def Product_Viewing():
     Clear()
