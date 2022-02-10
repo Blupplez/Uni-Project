@@ -111,6 +111,7 @@ def Account_Change():
 
 #Seller Page
 def Product_Page():
+    Clear()
     print("1. Create Product")
     print("2. Edit Product")
     print("3. Delete Product")
@@ -131,6 +132,7 @@ def Product_Page():
 
 #Add new product to database
 def Create_Product():
+    Clear()
     productname = input('Enter your product name: ')
     productprice = input('Enter your product price: ')
     productproducedby = input('Enter where your product is produced: ')
@@ -154,6 +156,7 @@ def Delete_Product():
     pass
 
 def Product_Viewing():
+    Clear()
     print('1. Show Product')
     print('2. Show New Products')
     print('3. Show All Products')
