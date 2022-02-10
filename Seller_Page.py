@@ -2,6 +2,7 @@ import Main
 import os
 import sys
 import sqlite3
+from datetime import datetime
 
 USERNAME = None
 PWD = None
@@ -24,14 +25,17 @@ def Start(Username, Pwd):
                 PWD = Password
                 USERTYPE = UserType
     
-    cursor.execute('''CREATE TABLE IF NOT EXISTS Product(
+                cursor.execute('''CREATE TABLE IF NOT EXISTS Product(
                 productid INTEGER PRIMARY KEY,
                 productname TEXT NOT NULL,
                 productprice REAL NOT NULL,
+                productcost REAL NOT NULL,
+                producttotalprice REAL NOT NULL,
                 productproducedby TEXT NOT NULL,
-                productexpirydate TEXT NOT NULL,
+                productexpirydate DATETIME NOT NULL,
                 productquantity REAL NOT NULL,
-                productcatergory REAL NOT NULL,
+                productcatergory TEXT NOT NULL,
+                productenterdate DATETIME NOT NULL,
                 sellername TEXT NOT NULL)''')
     connection.commit()
     connection.close()
@@ -139,14 +143,17 @@ def Create_Product():
     Clear()
     productname = input('Enter your product name: ')
     productprice = input('Enter your product price: ')
+    productcost = input('Enter your product cost: ')
+    producttotalprice = input('Enter your product total price: ')
     productproducedby = input('Enter where your product is produced: ')
-    productexpirydate = input('Enter your product expiry date: ')
+    productexpirydate = input('Enter your product expiry date: yyyy-MM-dd HH:mm:ss ')
     productquantity = input('Enter your product quantity: ')
-    productcatergory = input('Enter your product catergory: ')
+    productcatergory = input('Enter your product catergory: Fruits or Herbs? ')
+    productenterdate = (datetime.today().date())
     sellername = input('Enter your seller name: ')
     connection = sqlite3.connect('SellerProduct.db')
     cursor = connection.cursor()
-    cursor.execute(f'INSERT INTO Product(productname,productprice,productproducedby,productexpirydate,productquantity,productcatergory,sellername) VALUES ("{productname}","{productprice}","{productproducedby}","{productexpirydate}","{productquantity}","{productcatergory}","{sellername}")')
+    cursor.execute(f'INSERT INTO Product(productname,productprice,productcost,producttotalprice,productproducedby,productexpirydate,productquantity,productcatergory,productenterdate,sellername) VALUES ("{productname}","{productprice}","{productcost}","{producttotalprice}","{productproducedby}","{productexpirydate}","{productquantity}","{productcatergory}","{productenterdate}","{sellername}")')
     connection.commit()
     connection.close()
     Product_Page()
