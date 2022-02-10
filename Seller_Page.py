@@ -126,7 +126,7 @@ def Product_Page():
     else:
         Menu()
 
-#Create Product
+#Add new product to database
 def Create_Product():
     productname = input('Enter your product name: ')
     productprice = input('Enter your product price: ')
@@ -134,7 +134,7 @@ def Create_Product():
     productexpirydate = input('Enter your product expiry date: ')
     productquantity = input('Enter your product quantity: ')
     sellername = input('Enter your seller name: ')
-    cursor.execute(f'INSERT INTO Product VALUES (NULL,"{productname}","{productprice}","{productproducedby}","{productexpirydate},{productquantity},{sellername}")')
+    cursor.execute(f'INSERT INTO Product(productname,productprice,productproducedby,productexpirydate,productquantity,sellername) VALUES ("{productname}","{productprice}","{productproducedby}","{productexpirydate}","{productquantity}","{sellername}")')
     connection.commit()
     connection.close()
     Product_Page()
