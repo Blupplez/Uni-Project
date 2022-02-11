@@ -7,7 +7,6 @@ PWD = None
 USERTYPE = None
 
 def Start(Username, Pwd):
-    Clear()
     global USERTYPE,USERNAME,PWD
     with open('Files/Userdata.txt','r') as user:
         for users in user.readlines():
@@ -21,8 +20,7 @@ def Start(Username, Pwd):
 
 
 def Menu():
-    Clear()
-    print(f'Welcome {USERNAME}')
+    print(f'\nWelcome {USERNAME}')
     print('\n1.Account Info\n2.Exit')
 
     option = int(input('\nChoose an option: '))
@@ -36,7 +34,7 @@ def Menu():
 
 
 def Account_Info():
-    Clear()
+    print('\nAccount Info')
     print(f'Username: {USERNAME}')
     print(f'Password: {PWD}')
     print(f'Usertype: {USERTYPE}')
@@ -53,8 +51,7 @@ def Account_Info():
 
 
 def Account_Del():
-    Clear()
-    option = input('Are you sure you want to delete your account(Yes/No) ')
+    option = input('\nAre you sure you want to delete your account(Yes/No) ')
     while option != 'Yes' and option != 'yes' and option != 'No' and option != 'no':
         option = input('(Yes/No) ')
 
@@ -86,8 +83,3 @@ def Account_Del():
 
 def Account_Change():
     pass
-
-
-# Clear CMD
-def Clear():
-    os.system('cls')

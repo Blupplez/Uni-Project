@@ -5,27 +5,24 @@ import Seller_Page
 
 # Opens Login & Sign In Page
 def Access():
-    Clear()
     print('Welcome User')
-    print('1. Login\n2. Sign In\n3. Exit')
+    print('1. Login\n2. Sign Up\n3. Exit')
 
     option = int(input('\nChoose an option: '))
     while option != 1 and option !=2 and option !=3:
         option = int(input('Choose an option: '))
     
     if option == 1:
-        Clear()
         Login()
     elif option == 2:
-        Clear()
-        Sign_In()
+        Sign_Up()
     else:
         sys.exit()
 
 
 # Sign in Page
-def Sign_In():
-    print('Sign In')
+def Sign_Up():
+    print('Sign Up')
     Username = input('\nUsername: ')
     Pwd = input('Password: ')
     print('\n1. Buyer\n2. Seller')
@@ -67,11 +64,6 @@ def Login():
                         Seller_Page.Start(Username, Pwd)
                 else:
                     Access = False
-    
-
-# Clear CMD
-def Clear():
-    os.system('cls')
 
 
 # Run the program
