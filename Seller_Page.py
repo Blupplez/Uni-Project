@@ -13,7 +13,6 @@ cursor = connection.cursor()
 
 
 def Start(Username, Pwd):
-    Clear()
     global USERTYPE,USERNAME,PWD
     with open('Files/Userdata.txt','r') as user:
         for users in user.readlines():
@@ -40,9 +39,8 @@ def Start(Username, Pwd):
 
 
 def Menu():
-    Clear()
-    print(f'Welcome {USERNAME}')
-    print('\n1.Account Info\n2.Products\n3.Exit')
+    print(f'\nWelcome {USERNAME}')
+    print('\n1.Account Info\n2.Products\n3.Log Out')
 
     option = int(input('\nChoose an option: '))
     while option != 1 and option != 2 and option != 3:
@@ -57,7 +55,7 @@ def Menu():
 
 
 def Account_Info():
-    Clear()
+    print('\nAccount Info')
     print(f'Username: {USERNAME}')
     print(f'Password: {PWD}')
     print(f'Usertype: {USERTYPE}')
@@ -74,8 +72,7 @@ def Account_Info():
 
 
 def Account_Del():
-    Clear()
-    option = input('Are you sure you want to delete your account(Yes/No) ')
+    option = input('\nAre you sure you want to delete your account(Yes/No) ')
     while option != 'Yes' and option != 'yes' and option != 'No' and option != 'no':
         option = input('(Yes/No) ')
 
@@ -111,7 +108,6 @@ def Account_Change():
 
 #Seller Page
 def Product_Page():
-    Clear()
     print("1. Create Product")
     print("2. Edit Product")
     print("3. Delete Product")
@@ -136,7 +132,6 @@ def Product_Page():
 
 #Add new product to database
 def Create_Product():
-    Clear()
     productname = input('Enter your product name: ')
     productprice = input('Enter your product price: ')
     productproducedby = input('Enter where your product is produced: ')
@@ -161,7 +156,6 @@ def Delete_Product():
 
 
 def Product_Viewing():
-    Clear()
     print('1. Show Product')
     print('2. Show New Products')
     print('3. Show All Products')
@@ -207,8 +201,3 @@ def Product_Viewing():
         Cat_Product()
     else:
         Product_Page()
-
-
-# Clear CMD
-def Clear():
-    os.system('cls')
