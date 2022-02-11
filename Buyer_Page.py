@@ -21,7 +21,7 @@ def Start(Username, Pwd):
 
 def Menu():
     print(f'\nWelcome {USERNAME}')
-    print('\n1.Account Info\n2.Exit')
+    print('\n1.Account Info\n2.Log Out')
 
     option = int(input('\nChoose an option: '))
     while option != 1 and option !=2:

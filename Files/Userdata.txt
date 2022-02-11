@@ -1,2 +1,3 @@
 Ray,pwd,seller
 Imran,123,seller
+Username1,password1,seller
