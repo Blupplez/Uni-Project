@@ -2,6 +2,7 @@ import Main
 import os
 import sys
 import sqlite3
+from datetime import datetime
 
 USERNAME = None
 PWD = None
@@ -24,14 +25,17 @@ def Start(Username, Pwd):
                 USERTYPE = UserType
     
     cursor.execute('''CREATE TABLE IF NOT EXISTS Product(
-                productid INTEGER PRIMARY KEY,
-                productname TEXT NOT NULL,
-                productprice REAL NOT NULL,
-                productproducedby TEXT NOT NULL,
-                productexpirydate TEXT NOT NULL,
-                productquantity REAL NOT NULL,
-                productcatergory REAL NOT NULL,
-                sellername TEXT NOT NULL)''')
+                   productid INTEGER PRIMARY KEY,
+                   productname TEXT NOT NULL,
+                   productprice REAL NOT NULL,
+                   productcost REAL NOT NULL,
+                   producttotalprice REAL NOT NULL,
+                   productproducedby TEXT NOT NULL,
+                   productexpirydate DATETIME NOT NULL,
+                   productquantity REAL NOT NULL,
+                   productcatergory TEXT NOT NULL,
+                   productenterdate DATETIME NOT NULL,
+                   sellername TEXT NOT NULL)''')
     connection.commit()
     connection.close()
 
@@ -134,16 +138,30 @@ def Product_Page():
 def Create_Product():
     productname = input('Enter your product name: ')
     productprice = input('Enter your product price: ')
+    productcost = input('Enter your product cost: ')
+    producttotalprice = input('Enter your product total price: ')
     productproducedby = input('Enter where your product is produced: ')
-    productexpirydate = input('Enter your product expiry date: ')
+    productexpirydate = input('Enter your product expiry date: yyyy-MM-dd HH:mm:ss ')
     productquantity = input('Enter your product quantity: ')
-    productcatergory = input('Enter your product catergory: ')
-    sellername = input('Enter your seller name: ')
+    productcatergory = input('Enter your product catergory: Fruits or Herbs? ')
+    productenterdate = (datetime.today().date())
+    sellername = USERNAME
+    print(f'product name: "{productname}"')
+    print(f'product price: RM "{productprice}"')
+    print(f'product cost: RM "{productcost}"')
+    print(f'product total price: RM "{producttotalprice}"')
+    print(f'product producedby: "{productproducedby}"')
+    print(f'product expirydate: "{productexpirydate}"')
+    print(f'product quantity: "{productquantity}"')
+    print(f'product catergory: "{productcatergory}"')
+    print(f'product name: "{productenterdate}"')
+    print(f'seller name: "{sellername}"')
     connection = sqlite3.connect('SellerProduct.db')
     cursor = connection.cursor()
-    cursor.execute(f'INSERT INTO Product(productname,productprice,productproducedby,productexpirydate,productquantity,productcatergory,sellername) VALUES ("{productname}","{productprice}","{productproducedby}","{productexpirydate}","{productquantity}","{productcatergory}","{sellername}")')
+    cursor.execute(f'INSERT INTO Product(productname,productprice,productcost,producttotalprice,productproducedby,productexpirydate,productquantity,productcatergory,productenterdate,sellername) VALUES ("{productname}","{productprice}","{productcost}","{producttotalprice}","{productproducedby}","{productexpirydate}","{productquantity}","{productcatergory}","{productenterdate}","{sellername}")')
     connection.commit()
-    connection.close()
+    connection.close()  
+    print('Added successful.')
     Product_Page()
 
 
@@ -152,7 +170,16 @@ def Edit_Product():
 
 
 def Delete_Product():
-    pass
+    connection = sqlite3.connect('SellerProduct.db')
+    cursor = connection.cursor()
+    deleteid = input('Enter the id of product u wan to delete: ') 
+    deleteproduct = (f"DELETE from Product where productid = {deleteid}")
+    cursor.execute('''SELECT productprice FROM Product''')
+    cursor.execute(deleteproduct)
+    connection.commit()
+    connection.close()
+    print('Product deleted.')
+    Product_Page()
 
 
 def Product_Viewing():
