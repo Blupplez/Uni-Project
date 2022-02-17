@@ -174,7 +174,7 @@ def Delete_Product():
     cursor = connection.cursor()
     deleteid = input('Enter the id of product u wan to delete: ') 
     deleteproduct = (f"DELETE from Product where productid = {deleteid}")
-    cursor.execute('''SELECT productprice FROM Product''')
+    cursor.execute('''SELECT * FROM Product''')
     cursor.execute(deleteproduct)
     connection.commit()
     connection.close()
