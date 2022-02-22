@@ -12,7 +12,6 @@ USERTYPE = None
 connection = sqlite3.connect('SellerProduct.db')
 cursor = connection.cursor()
 
-
 def Start(Username, Pwd):
     global USERTYPE,USERNAME,PWD
     with open('Files/Userdata.txt','r') as user:
@@ -41,7 +40,6 @@ def Start(Username, Pwd):
 
     Menu()
 
-
 def Menu():
     print(f'\nWelcome {USERNAME}')
     print('\n1.Account Info\n2.Products\n3.Log Out')
@@ -56,7 +54,6 @@ def Menu():
         Product_Page()
     else:
         Main.Access()
-
 
 def Account_Info():
     print('\nAccount Info')
@@ -73,7 +70,6 @@ def Account_Info():
         Account_Del()
     else:
         Menu()
-
 
 def Account_Del():
     option = input('\nAre you sure you want to delete your account(Yes/No) ')
@@ -105,21 +101,19 @@ def Account_Del():
     elif option == 'no':
         Menu()
 
-
 def Account_Change():
     pass
-
 
 #Seller Page
 def Product_Page():
     print("1. Create Product")
     print("2. Edit Product")
     print("3. Delete Product")
-    print("4. View Product")
+    print("4. View Own Product")
     print("5. Exit")
     
     option = int(input('\nChoose an option: '))
-    while option != 1 and option !=2 and option !=3:
+    while option != 1 and option !=2 and option !=3 and option !=4 and option !=5:
         option = int(input('Choose an option: '))
     
     if option == 1:
@@ -132,7 +126,6 @@ def Product_Page():
         Product_Viewing()
     else:
         Menu()
-
 
 #Add new product to database
 def Create_Product():
@@ -164,10 +157,8 @@ def Create_Product():
     print('Added successful.')
     Product_Page()
 
-
 def Edit_Product():
     pass
-
 
 def Delete_Product():
     connection = sqlite3.connect('SellerProduct.db')
@@ -181,50 +172,15 @@ def Delete_Product():
     print('Product deleted.')
     Product_Page()
 
-
 def Product_Viewing():
-    print('1. Show Product')
-    print('2. Show New Products')
-    print('3. Show All Products')
-    print('4. Show Product by Catergory')
-    print('5. Back')
-
-    
-    #Show Own Product
-    def Own_Product():
-        cursor.execute('''SELECT productname,sellername FROM Product''')
-        result=cursor.fetchall()
-        print(result)
-        for i in result:
-            print(i)
-        connection.close()
-    
-
-    #Show New Product
-    def New_Product():
-        cursor.execute(''' ''')
-
-
-    #Show All Product
-    def All_Product():
-        cursor.execute('''SELECT productname,sellername FROM Product''')
-        result = cursor.fetchall()
-        print(result)
-
-
-    #Show Product in Catergory
-    def Cat_Product():
-        cursor.execute(''' ''')
-
-
-    option = int(input('Choose an option: '))
-    if option == 1:
-        Own_Product()
-    elif option == 2:
-        New_Product()
-    elif option == 3:
-        All_Product()
-    elif option == 4:
-        Cat_Product()
-    else:
-        Product_Page()
+    connection = sqlite3.connect('SellerProduct.db')
+    cursor = connection.cursor()
+    nickname = USERNAME
+    username = (f"'{nickname}'")
+    ownproductsearch = (f"SELECT * FROM Product where sellername={username}")
+    cursor.execute('''SELECT * FROM Product''')
+    cursor.execute(ownproductsearch)
+    result=cursor.fetchall()
+    print(result)
+    x=input('Press enter to return')
+    Product_Page()
