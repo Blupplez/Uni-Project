@@ -1,8 +1,5 @@
 Ray,pwd,seller
 Imran,123,seller
-Username1,password1,seller
 swee,pwd,seller
 Ray,123,buyer
-Ray,123,buyer
-Ray,123,buyer
-Ray,123,buyer
+Spiegelbild,123,seller
