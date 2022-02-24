@@ -98,7 +98,17 @@ def View_Product():
         print(result)
 
     def Cat_Product():
-        pass
+        connection = sqlite3.connect('SellerProduct.db')
+        cursor = connection.cursor()
+        catergory = input('enter a catergory (Fruits or Herbs): ')
+        cat = (f"'{catergory}'")
+        catproductsearch = (f"SELECT * FROM Product where productcatergory={cat}")
+        cursor.execute('''SELECT * FROM Product''')
+        cursor.execute(catproductsearch)
+        result=cursor.fetchall()
+        print(result)
+        x=input('Press enter to return')
+        View_Product()
 
     if option == 1:
         New_Product()
