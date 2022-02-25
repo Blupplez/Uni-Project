@@ -95,7 +95,8 @@ def View_Product():
         cursor = connection.cursor()
         cursor.execute('''SELECT * FROM Product''')
         result=cursor.fetchall()
-        print(result)
+        for i in result:
+            print (i)
 
     def Cat_Product():
         connection = sqlite3.connect('SellerProduct.db')
@@ -106,7 +107,8 @@ def View_Product():
         cursor.execute('''SELECT * FROM Product''')
         cursor.execute(catproductsearch)
         result=cursor.fetchall()
-        print(result)
+        for i in result:
+            print(i)
         x=input('Press enter to return')
         View_Product()
 

@@ -196,6 +196,7 @@ def Product_Viewing():
     cursor.execute('''SELECT * FROM Product''')
     cursor.execute(ownproductsearch)
     result=cursor.fetchall()
-    print(result)
+    for i in result:
+       print(i)
     x=input('Press enter to return')
     Product_Page()
