@@ -2,6 +2,7 @@ import Main
 import os
 import sys
 import sqlite3
+import Shopping_Cart
 
 USERNAME = None
 PWD = None
@@ -22,16 +23,18 @@ def Start(Username, Pwd):
 
 def Menu():
     print(f'Welcome {USERNAME}')
-    print('\n1.Account Info\n2.View Product\n3.Exit')
+    print('\n1.Account Info\n2.View Product\n3.Shopping Cart\n4.Exit')
 
     option = int(input('\nChoose an option: '))
-    while option != 1 and option !=2 and option !=3:
+    while option != 1 and option !=2 and option !=3 and option !=4:
         option = int(input('Choose an option: '))
     
     if option == 1:
         Account_Info()
     elif option == 2:
         View_Product()
+    elif option == 3:
+        Shopping_Cart.Start(USERNAME ,PWD)
     else:
         Main.Access()
 
