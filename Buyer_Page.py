@@ -88,10 +88,21 @@ def Account_Del():
         Menu()
 
 def View_Product():
-    print ('\n1.New Product \n2.All Product \n3.Product Category')
+    print ('\n1.New Product \n2.All Product \n3.Product Category \n4.Back')
     option = int(input('Choose an option: '))
+    while option != 1 and option !=2 and option !=3 and option !=4:
+        option = int(input('Choose an option: '))
+
     def New_Product():
-        pass
+        connection = sqlite3.connect('SellerProduct.db')
+        cursor = connection.cursor()
+        cursor.execute('''SELECT * FROM Product ORDER BY productid DESC;''')
+        result=cursor.fetchall()
+        print ("Arrangement: Newest to Oldest")
+        for i in result:
+            print (i)
+        x=input('Press enter to return')
+        View_Product()
 
     def All_Product():
         connection = sqlite3.connect('SellerProduct.db')
@@ -100,6 +111,8 @@ def View_Product():
         result=cursor.fetchall()
         for i in result:
             print (i)
+        x=input('Press enter to return')
+        View_Product()
 
     def Cat_Product():
         connection = sqlite3.connect('SellerProduct.db')
@@ -119,8 +132,10 @@ def View_Product():
         New_Product()
     elif option == 2:
         All_Product()
-    else:
+    elif option == 3:
         Cat_Product()
+    else:
+        Menu()
 
 def Account_Change():
     pass
