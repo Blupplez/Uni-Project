@@ -119,7 +119,7 @@ def Product_Page():
     if option == 1:
         Create_Product()
     elif option == 2:
-        Edit_Product()
+        Edit_ProductInfo()
     elif option == 3:
         Delete_Product()
     elif option == 4:
@@ -151,13 +151,18 @@ def Create_Product():
     print(f'seller name: "{sellername}"')
     connection = sqlite3.connect('SellerProduct.db')
     cursor = connection.cursor()
-    cursor.execute(f'INSERT INTO Product(productname,productprice,productcost,producttotalprice,productproducedby,productexpirydate,productquantity,productcatergory,productenterdate,sellername) VALUES ("{productname}","{productprice}","{productcost}","{producttotalprice}","{productproducedby}","{productexpirydate}","{productquantity}","{productcatergory}","{productenterdate}","{sellername}")')
+    cursor.execute(f'INSERT INTO Product(productname,productprice,productcost,producttotalprice,\
+                                         productproducedby,productexpirydate,productquantity,\
+                                         productcatergory,productenterdate,sellername) \
+                                         VALUES ("{productname}","{productprice}","{productcost}",\
+                                         "{producttotalprice}","{productproducedby}","{productexpirydate}",\
+                                         "{productquantity}","{productcatergory}","{productenterdate}","{sellername}")')
     connection.commit()
     connection.close()  
     print('Added successful.')
     Product_Page()
 
-def Edit_Product():
+def Edit_ProductInfo():
     connection = sqlite3.connect('SellerProduct.db')
     cursor = connection.cursor()
     productid = input('Enter the product id for the product u wan to update: ')
@@ -169,7 +174,10 @@ def Edit_Product():
     newproductexpirydate = input('Enter your product expiry date: yyyy-MM-dd HH:mm:ss ')
     newproductquantity = input('Enter your product quantity: ')
     newproductcatergory = input('Enter your product catergory: Fruits or Herbs? ')
-    updateproduct = (f"UPDATE Product SET productname = '{newproductname}', productprice = {newproductprice}, productcost = {newproductcost}, producttotalprice = {newproducttotalprice}, productproducedby = '{newproductproducedby}', productexpirydate = '{newproductexpirydate}', productquantity = {newproductquantity}, productcatergory = '{newproductcatergory}' WHERE productid ={productid};")
+    updateproduct = (f"UPDATE Product SET productname = '{newproductname}', productprice = {newproductprice},\
+                       productcost = {newproductcost}, producttotalprice = {newproducttotalprice},\
+                       productproducedby = '{newproductproducedby}', productexpirydate = '{newproductexpirydate}',\
+                       productquantity = {newproductquantity}, productcatergory = '{newproductcatergory}' WHERE productid ={productid};")
     cursor.execute(updateproduct)
     connection.commit()
     connection.close()
