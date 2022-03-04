@@ -119,11 +119,33 @@ def Edit_Product():
 
 
 
-
+#Delete Product in Cart
 def Delete_Product():
-    pass
+    connection = sqlite3.connect('usercart.db')
+    cursor = connection.cursor()
+    Print_Cart()
+    therowid = input('Enter the row id of the product: ')
+    deleteproduct = (f"DELETE from usercart where rowid = {therowid}")
+    cursor.execute('''SELECT * FROM usercart''')
+    cursor.execute(deleteproduct)
+    connection.commit()
+    connection.close()
+    print('Product successfully deleted in cart')
+    Shopping_Menu()
 
 
 
+#Proceed to Payment
 def Proceed_Payment():
-    pass
+    connection = sqlite3.connect('usercart.db')
+    cursor = connection.cursor()
+    Print_Cart()
+    urusername = input('Enter your username for checkout: ')
+    proceedpayment = (f"SELECT SUM(producttotalprice) FROM usercart WHERE username = {urusername}")
+    cursor.execute(proceedpayment)
+    print('The total price for your checkout is')
+    print(cursor.fetchone()[0])
+    connection.commit()
+    connection.close()
+    print('Purchases Completed')
+    Shopping_Menu()
