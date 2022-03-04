@@ -96,9 +96,9 @@ def View_Product():
     def New_Product():
         connection = sqlite3.connect('SellerProduct.db')
         cursor = connection.cursor()
-        cursor.execute('''SELECT * FROM Product ORDER BY productid DESC;''')
+        cursor.execute('''SELECT * FROM Product ORDER BY productid DESC LIMIT 3;''')
         result=cursor.fetchall()
-        print ("Arrangement: Newest to Oldest")
+        print ('Newest 3')
         for i in result:
             print (i)
         x=input('Press enter to return')
