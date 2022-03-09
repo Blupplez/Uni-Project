@@ -143,7 +143,8 @@ def Available_Product():
         cursor.execute('''SELECT productname,productprice,productcost,producttotalprice,sellername
         FROM Product 
         WHERE productquantity >= 1''')
-        result=cursor.fetchall()
+        result = cursor.fetchall()
+        print('\n',' '*20,'Available Products')
         print('| Product Name |  Price  |  Cost  | Total Price | Seller Name |')
         print('-'*63)
         for i in result:
@@ -154,3 +155,4 @@ def Available_Product():
                           i[3],' '*(10-len((str(i[3])))),'|',
                           i[4],' '*(10-len((str(i[4])))),'|')
                 break
+        print('\n')
