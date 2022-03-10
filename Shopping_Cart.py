@@ -1,6 +1,7 @@
 import sqlite3
 import sys
 import Main
+import Payment
 
 USERNAME = None
 PWD = None
@@ -85,7 +86,7 @@ def Shopping_Menu():
     elif option == 4:
         Proceed_Payment()
     else:
-        Shopping_Menu()
+        Main.Access()
 
 
 
@@ -153,15 +154,15 @@ def Delete_Product():
 
 #Proceed to Payment
 def Proceed_Payment():
-    connection = sqlite3.connect('usercart.db')
-    cursor = connection.cursor()
-    Print_Cart()
-    urusername = input('Enter your username for checkout: ')
-    proceedpayment = (f"SELECT SUM(producttotalprice) FROM usercart WHERE username = {urusername}")
-    cursor.execute(proceedpayment)
-    print('The total price for your checkout is')
-    print(cursor.fetchone()[0])
-    connection.commit()
-    connection.close()
-    print('Purchases Completed')
-    Shopping_Menu()
+    print(f'Welcome {USERNAME}')
+    print("1. Go to Payment")
+    print("2. Continue Shopping")
+   
+    option = int(input('\nChoose an option: '))
+    while option != 1 and option !=2:
+        option = int(input('Choose an option: '))
+    
+    if option == 1:
+        Payment.Start(USERNAME ,PWD)
+    elif option == 2:
+        Shopping_Menu()
