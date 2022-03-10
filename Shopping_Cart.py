@@ -32,7 +32,8 @@ cursor.execute('''CREATE TABLE IF NOT EXISTS usercart(
                 productquantity INTERGER NOT NULL,
                 productproducedby TEXT NOT NULL,
                 productexpirydate TEXT NOT NULL,
-                producttotalprice TEXT NOT NULL)''')
+                producttotalprice TEXT NOT NULL,
+                sellerinformation TEXT NOT NULL)''')
 
 connection.commit()
 connection.close()
@@ -48,7 +49,17 @@ def Print_Cart():
     connection.commit()
     connection.close()
 
-
+#Print All Product for User
+def Print_Product():
+    connection = sqlite3.connect('SellerProduct.db')
+    cursor = connection.cursor()
+    cursor.execute('''SELECT * FROM Product''')
+    output = cursor.fetchall()
+    result = [i[0] for i in cursor.description]
+    print(result)
+    for value in output:
+     print(value)
+    connection.close()
 
 
 #Select Option from User
@@ -80,7 +91,8 @@ def Shopping_Menu():
 
 #Add Product for User
 def Add_Product():
-    username = input('Enter your username: ')
+    Print_Product()
+    username = USERNAME
     productid = input('Enter the product id: ')
     productname = input('Enter the product name: ')
     productprice = input('Enter the product price: ')
@@ -88,9 +100,13 @@ def Add_Product():
     productproducedby = input('Enter the producer of this product: ')
     productexpirydate = input('Enter the product expiry date: ')
     producttotalprice = input('Enter the product total price: ')
+    sellerinformation = input('Enter the seller name: ')
     connection = sqlite3.connect('usercart.db')
     cursor = connection.cursor()
-    cursor.execute(f'INSERT INTO usercart(username, productid, productname, productprice, productquantity, productproducedby, productexpirydate, producttotalprice) VALUES ("{username}","{productid}","{productname}","{productprice}","{productquantity}","{productproducedby}","{productexpirydate}","{producttotalprice}")')
+    cursor.execute(f'INSERT INTO usercart(username, productid, productname, productprice, productquantity,\
+                     productproducedby, productexpirydate, producttotalprice,sellerinformation) \
+                     VALUES ("{username}","{productid}","{productname}","{productprice}","{productquantity}",\
+                     "{productproducedby}","{productexpirydate}","{producttotalprice}","{sellerinformation}")')
     connection.commit()
     connection.close()
     print('Product successfully added into cart')
