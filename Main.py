@@ -5,8 +5,9 @@ import Seller_Page
 
 # Opens Login & Sign In Page
 def Access():
-    print('Welcome User')
-    print('1. Login\n2. Sign Up\n3. Exit')
+    print('')
+    print('='*15,'Fruits & Herbs Shop','='*15)
+    print('1. Login\n2. Create New Account\n3. Exit')
 
     option = int(input('\nChoose an option: '))
     while option != 1 and option !=2 and option !=3:
@@ -22,7 +23,8 @@ def Access():
 
 # Sign in Page
 def Sign_Up():
-    print('Sign Up')
+    print('')
+    print('='*15,'Sign Up','='*15)
     Username = input('\nUsername: ')
     Pwd = input('Password: ')
     print('\n1. Buyer\n2. Seller')
@@ -47,7 +49,8 @@ def Sign_Up():
 # Login Page
 def Login():
     Access = False
-    print('Login')
+    print('')
+    print('='*15,'Login','='*15)
     while Access == False:
         Username = input('\nUsername: ')
         Pwd = input('Password: ')
