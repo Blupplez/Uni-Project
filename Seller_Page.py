@@ -41,7 +41,8 @@ def Start(Username, Pwd):
     Menu()
 
 def Menu():
-    print(f'\nWelcome {USERNAME}')
+    print('')
+    print('='*15,'Welcome',USERNAME,'='*15)
     print('\n1.Account Info\n2.Products\n3.Log Out')
 
     option = int(input('\nChoose an option: '))
@@ -56,7 +57,8 @@ def Menu():
         Main.Access()
 
 def Account_Info():
-    print('\nAccount Info')
+    print('')
+    print('='*15,'Account Info','='*15)
     print(f'Username: {USERNAME}')
     print(f'Password: {PWD}')
     print(f'Usertype: {USERTYPE}')
