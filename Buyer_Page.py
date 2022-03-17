@@ -138,23 +138,3 @@ def View_Product():
         Cat_Product()
     else:
         Menu()
-
-def Available_Product():
-        connection = sqlite3.connect('SellerProduct.db')
-        cursor = connection.cursor()
-        cursor.execute('''SELECT productname,productprice,productcost,producttotalprice,sellername
-        FROM Product 
-        WHERE productquantity >= 1''')
-        result = cursor.fetchall()
-        print('\n',' '*20,'Available Products')
-        print('| Product Name |  Price  |  Cost  | Total Price | Seller Name |')
-        print('-'*63)
-        for i in result:
-            for x in i:
-                print('|',i[0],' '*(11-len((str(i[0])))),'|',
-                          i[1],' '*(6-len((str(i[1])))),'|',
-                          i[2],' '*(5-len((str(i[2])))),'|',
-                          i[3],' '*(10-len((str(i[3])))),'|',
-                          i[4],' '*(10-len((str(i[4])))),'|')
-                break
-        print('\n')

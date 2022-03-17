@@ -3,7 +3,7 @@ import sys
 import Main
 import Payment
 
-USERNAME = None
+USERNAME = 'Yang'
 PWD = None
 USERTYPE = None
 
@@ -43,10 +43,39 @@ connection.close()
 def Print_Cart():
     connection = sqlite3.connect('usercart.db')
     cursor = connection.cursor()
-    cursor.execute('''SELECT * FROM usercart''')
-    result=cursor.fetchall()
+    cursor.execute('''SELECT * FROM usercart WHERE username=USERNAME''')
+    result = cursor.fetchall()
+
+    # Checks if there is items in shopping cart
+    items = 0
     for i in result:
-        print(i)
+        items+=1
+    
+    if items == 0:
+        print('\nEmpty Shopping Cart')
+        input('Press ENTER to go back to shopping')
+        Shopping_Menu()
+    else:
+        pass
+
+    # Shows shopping cart
+    print('\n',' '*56,'Shopping Cart')
+    print(' '*56,'-'*15)
+    print('| Row ID |   Username   | Product ID |   Product Name   |  Price  | Quantity |  Produced By  | Expiry Date | Total Price | Seller Name |')
+    print('-'*136)
+    for i in result:
+        for x in i:
+                print('|',i[0],' '*(5-len((str(i[0])))),'|',
+                          i[1],' '*(11-len((str(i[1])))),'|',
+                          i[2],' '*(9-len((str(i[2])))),'|',
+                          i[3],' '*(15-len((str(i[3])))),'|',
+                          i[4],' '*(6-len((str(i[4])))),'|',
+                          i[5],' '*(7-len((str(i[5])))),'|',
+                          i[6],' '*(12-len((str(i[6])))),'|',
+                          i[7],' '*(10-len((str(i[7])))),'|',
+                          i[8],' '*(10-len((str(i[8])))),'|',
+                          i[9],' '*(10-len((str(i[9])))),'|')
+                break
     connection.commit()
     connection.close()
 
@@ -65,7 +94,8 @@ def Print_Product():
 
 #Select Option from User
 def Shopping_Menu():
-    print(f'Welcome {USERNAME}')
+    print('')
+    print('='*15,f'{USERNAME}\'s Shopping Cart','='*15)
     print("1. Add Product into Shopping Cart")
     print("2. Edit Product in Shopping Cart")
     print("3. Delete Product in Shopping Cart")
@@ -154,7 +184,8 @@ def Delete_Product():
 
 #Proceed to Payment
 def Proceed_Payment():
-    print(f'Welcome {USERNAME}')
+    print('')
+    print('='*15,'Payment','='*15)
     print("1. Go to Payment")
     print("2. Continue Shopping")
    
@@ -166,3 +197,5 @@ def Proceed_Payment():
         Payment.Start(USERNAME ,PWD)
     elif option == 2:
         Shopping_Menu()
+
+Print_Cart()
