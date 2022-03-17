@@ -3,7 +3,7 @@ import sys
 import Main
 import Payment
 
-USERNAME = 'Yang'
+USERNAME = None
 PWD = None
 USERTYPE = None
 
@@ -197,5 +197,3 @@ def Proceed_Payment():
         Payment.Start(USERNAME ,PWD)
     elif option == 2:
         Shopping_Menu()
-
-Print_Cart()
