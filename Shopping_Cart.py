@@ -143,6 +143,7 @@ def Add_Product():
             productexpirydate = i[6]
             producttotalprice = str(int(productprice)*int(productquantity))
             sellerinformation = i[10]
+
     connection = sqlite3.connect('usercart.db')
     cursor = connection.cursor()
     cursor.execute(f'INSERT INTO usercart(username, productid, productname, productprice, productquantity,\
@@ -163,12 +164,17 @@ def Edit_Product():
     cursor = connection.cursor()
     Print_Cart()
     therowid = input('Enter the row id of the product: ')
-    quantitychange = int(input('Enter the new quantity of the product you would like to change: '))
-    newprice = input('Enter the new total price:  ')
-    editproduct = (f"UPDATE usercart SET productquantity = {quantitychange} where rowid = {therowid}")
-    newproductprice = (f"UPDATE usercart SET producttotalprice = {newprice} where rowid = {therowid}")
-    cursor.execute(editproduct)
-    cursor.execute(newproductprice)
+    quantitychange = input('Enter the new quantity of the product you would like to change: ')
+
+    cursor.execute(f"SELECT * FROM usercart WHERE productid='{therowid}'")
+    result = cursor.fetchall()
+
+    for i in result:
+        for x in i:
+            newprice = str(int(i[3])*int(quantitychange))
+
+    cursor.execute(f"UPDATE usercart SET productquantity='{quantitychange}' WHERE rowid='{therowid}'")
+    cursor.execute(f"UPDATE usercart SET producttotalprice='{newprice}' WHERE rowid='{therowid}'")
     connection.commit()
     connection.close()
     print('Product successfully updated')
