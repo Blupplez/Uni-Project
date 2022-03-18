@@ -1,6 +1,5 @@
 import sqlite3
 import sys
-from unittest import result
 import Main
 import Payment
 import Buyer_Page
