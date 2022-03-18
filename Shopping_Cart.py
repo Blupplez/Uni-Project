@@ -96,7 +96,7 @@ def Print_Product():
 def Shopping_Menu():
     print('')
     print('='*15,f'{USERNAME}\'s Shopping Cart','='*15)
-    print("1. Add Product into Shopping Cart")
+    print("1. Select or Add Product into Shopping Cart")
     print("2. Edit Product in Shopping Cart")
     print("3. Delete Product in Shopping Cart")
     print("4. Proceed to Payment")

@@ -67,7 +67,7 @@ def Confirm_Payment():
     # Show Shopping Cart Before Payment
     print('\n','='*15,'Your Shopping Cart','='*15)
     Shopping_Cart.Print_Cart()
-    urusername = input('Enter your username for checkout: ')
+    urusername = USERNAME
 
     # Show Available Products
     print('\nHere are some other products you may want to buy.')
@@ -80,8 +80,7 @@ def Confirm_Payment():
     if option == 1:
         Shopping_Cart.Shopping_Menu()
 
-    proceedpayment = (f"SELECT SUM(producttotalprice) FROM usercart WHERE username = {urusername}")
-    cursor.execute(proceedpayment)
+    cursor.execute(f"SELECT SUM(producttotalprice) FROM usercart WHERE username='{urusername}'")
     print('The total price for your checkout is')
     print(cursor.fetchone()[0])
     connection.commit()
