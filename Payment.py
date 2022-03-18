@@ -79,8 +79,6 @@ def Confirm_Payment():
     
     if option == 1:
         Shopping_Cart.Shopping_Menu()
-    else:
-        pass
 
     proceedpayment = (f"SELECT SUM(producttotalprice) FROM usercart WHERE username = {urusername}")
     cursor.execute(proceedpayment)
