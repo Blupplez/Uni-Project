@@ -18,23 +18,7 @@ def Start(Username, Pwd):
                 PWD = Password
                 USERTYPE = UserType
     
-    Payment_Menu()
-
-
-def Payment_Menu():
-    print('')
-    print('='*15,'Payment','='*15)
-    print("1. Proceed to Payment")
-    print("2. Back to Shopping Cart")
-    
-    option = int(input('\nChoose an option: '))
-    while option != 1 and option !=2:
-        option = int(input('Choose an option: '))
-    
-    if option == 1:
-        Confirm_Payment()
-    elif option == 2:
-        Shopping_Cart.Shopping_Menu()
+    Confirm_Payment()
 
 
 def Available_Product():
@@ -72,7 +56,7 @@ def Confirm_Payment():
     # Show Available Products
     print('\nHere are some other products you may want to buy.')
     Available_Product()
-    print('1. Continue Shopping\n2.Continue Payment')
+    print('1. Continue Shopping\n2. Continue Payment')
     option = int(input('\nChoose an option: '))
     while option != 1 and option !=2:
         option = int(input('Choose an option: '))
@@ -83,7 +67,8 @@ def Confirm_Payment():
     cursor.execute(f"SELECT SUM(producttotalprice) FROM usercart WHERE username='{urusername}'")
     print('The total price for your checkout is')
     print(cursor.fetchone()[0])
+    print('Purchases Completed')
+    cursor.execute(f"DELETE FROM usercart WHERE username='{urusername}'")
     connection.commit()
     connection.close()
-    print('Purchases Completed')
     Shopping_Cart.Shopping_Menu()

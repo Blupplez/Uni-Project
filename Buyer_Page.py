@@ -24,7 +24,7 @@ def Start(Username, Pwd):
 def Menu():
     print('')
     print('='*15,'Welcome',USERNAME,'='*15)
-    print('\n1.Account Info\n2.View Product\n3.Shopping Cart\n4.Exit')
+    print('\n1. Account Info\n2. View Product\n3. Shopping Cart\n4. Log Out')
 
     option = int(input('\nChoose an option: '))
     while option != 1 and option !=2 and option !=3 and option !=4:
@@ -90,7 +90,7 @@ def Account_Del():
         Menu()
 
 def View_Product():
-    print ('\n1.New Product \n2.All Product \n3.Product Category \n4.Back')
+    print ('\n1. New Product \n2. All Product \n3. Product Category \n4. Back')
     option = int(input('Choose an option: '))
     while option != 1 and option !=2 and option !=3 and option !=4:
         option = int(input('Choose an option: '))

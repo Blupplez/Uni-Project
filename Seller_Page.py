@@ -43,7 +43,7 @@ def Start(Username, Pwd):
 def Menu():
     print('')
     print('='*15,'Welcome',USERNAME,'='*15)
-    print('\n1.Account Info\n2.Products\n3.Log Out')
+    print('\n1. Account Info\n2. Products\n3. Log Out')
 
     option = int(input('\nChoose an option: '))
     while option != 1 and option != 2 and option != 3:

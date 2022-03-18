@@ -1,7 +1,9 @@
 import sqlite3
 import sys
+from unittest import result
 import Main
 import Payment
+import Buyer_Page
 
 USERNAME = None
 PWD = None
@@ -61,7 +63,7 @@ def Print_Cart():
     # Shows shopping cart
     print('\n',' '*56,'Shopping Cart')
     print(' '*56,'-'*15)
-    print('| Row ID |   Username   | Product ID |   Product Name   |  Price  | Quantity |  Produced By  | Expiry Date | Total Price | Seller Name |')
+    print('| Row ID |   Username   | Product ID |   Product Name   |  Price  | Quantity |  Produced By  |      Expiry Date      | Total Price | Seller Name |')
     print('-'*136)
     for i in result:
         for x in i:
@@ -72,7 +74,7 @@ def Print_Cart():
                           i[4],' '*(6-len((str(i[4])))),'|',
                           i[5],' '*(7-len((str(i[5])))),'|',
                           i[6],' '*(12-len((str(i[6])))),'|',
-                          i[7],' '*(10-len((str(i[7])))),'|',
+                          i[7],' '*(20-len((str(i[7])))),'|',
                           i[8],' '*(10-len((str(i[8])))),'|',
                           i[9],' '*(10-len((str(i[9])))),'|')
                 break
@@ -100,7 +102,7 @@ def Shopping_Menu():
     print("2. Edit Product in Shopping Cart")
     print("3. Delete Product in Shopping Cart")
     print("4. Proceed to Payment")
-    print("5. Exit")
+    print("5. Back")
 
 
     option = int(input('\nChoose an option: '))
@@ -116,22 +118,32 @@ def Shopping_Menu():
     elif option == 4:
         Proceed_Payment()
     else:
-        Main.Access()
+        Buyer_Page.Menu()
 
 
 
 #Add Product for User
 def Add_Product():
     Print_Product()
+    connection = sqlite3.connect('SellerProduct.db')
+    cursor = connection.cursor()
+
     username = USERNAME
     productid = input('Enter the product id: ')
-    productname = input('Enter the product name: ')
-    productprice = input('Enter the product price: ')
-    productquantity = input('Enter the product quantity: ')
-    productproducedby = input('Enter the producer of this product: ')
-    productexpirydate = input('Enter the product expiry date: ')
-    producttotalprice = input('Enter the product total price: ')
-    sellerinformation = input('Enter the seller name: ')
+    print('How much would you want to buy?')
+    productquantity = input('>> ')
+    
+    cursor.execute(f"SELECT * FROM Product WHERE productid='{productid}'")
+    result = cursor.fetchall()
+
+    for i in result:
+        for x in i:
+            productname = i[1]
+            productprice = i[2]
+            productproducedby = i[5]
+            productexpirydate = i[6]
+            producttotalprice = str(int(productprice)*int(productquantity))
+            sellerinformation = i[10]
     connection = sqlite3.connect('usercart.db')
     cursor = connection.cursor()
     cursor.execute(f'INSERT INTO usercart(username, productid, productname, productprice, productquantity,\
@@ -186,6 +198,7 @@ def Delete_Product():
 def Proceed_Payment():
     print('')
     print('='*15,'Payment','='*15)
+    print('Are you sure you want to proceed to payment')
     print("1. Go to Payment")
     print("2. Continue Shopping")
    
@@ -197,3 +210,5 @@ def Proceed_Payment():
         Payment.Start(USERNAME ,PWD)
     elif option == 2:
         Shopping_Menu()
+
+Print_Cart()
