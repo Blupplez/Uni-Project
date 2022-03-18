@@ -43,7 +43,7 @@ connection.close()
 def Print_Cart():
     connection = sqlite3.connect('usercart.db')
     cursor = connection.cursor()
-    cursor.execute('''SELECT * FROM usercart WHERE username=USERNAME''')
+    cursor.execute(f"SELECT * FROM usercart WHERE username='{USERNAME}'")
     result = cursor.fetchall()
 
     # Checks if there is items in shopping cart
@@ -197,3 +197,6 @@ def Proceed_Payment():
         Payment.Start(USERNAME ,PWD)
     elif option == 2:
         Shopping_Menu()
+
+
+Print_Cart()
