@@ -100,20 +100,51 @@ def View_Product():
         cursor = connection.cursor()
         cursor.execute('''SELECT * FROM Product ORDER BY productid DESC LIMIT 3;''')
         result=cursor.fetchall()
-        print ('Newest 3')
+        print (' '*60,'Newest 3 Products\n')
+        print('| Product ID | Product Name |   Price   | Total Price |   Produce By   |      Expiry Date      | Quantity | Category |   Enter Date   | Seller Name |')
+        print('-'*149)
         for i in result:
-            print (i)
-        x=input('Press enter to return')
+            for x in i:
+                print('|',i[0],' '*(9-len((str(i[0])))),'|',
+                    i[1],' '*(11-len((str(i[1])))),'|',
+                    i[2],' '*(8-len((str(i[2])))),'|',
+                    i[4],' '*(10-len((str(i[4])))),'|',
+                    i[5],' '*(13-len((str(i[5])))),'|',
+                    i[6],' '*(20-len((str(i[6])))),'|',
+                    i[7],' '*(7-len((str(i[7])))),'|',
+                    i[8],' '*(7-len((str(i[8])))),'|',
+                    i[9],' '*(13-len((str(i[9])))),'|',
+                    i[10],' '*(10-len((str(i[10])))),'|')
+                break
+        print('')
+        input('Press ENTER to return')
         View_Product()
 
     def All_Product():
         connection = sqlite3.connect('SellerProduct.db')
         cursor = connection.cursor()
-        cursor.execute('''SELECT * FROM Product''')
-        result=cursor.fetchall()
+
+        cursor.execute(f"SELECT * FROM Product")
+        result = cursor.fetchall()
+
+        print('\n',' '*65,'All Products\n')
+        print('| Product ID | Product Name |   Price   | Total Price |   Produce By   |      Expiry Date      | Quantity | Category |   Enter Date   | Seller Name |')
+        print('-'*149)
         for i in result:
-            print (i)
-        x=input('Press enter to return')
+            for x in i:
+                print('|',i[0],' '*(9-len((str(i[0])))),'|',
+                    i[1],' '*(11-len((str(i[1])))),'|',
+                    i[2],' '*(8-len((str(i[2])))),'|',
+                    i[4],' '*(10-len((str(i[4])))),'|',
+                    i[5],' '*(13-len((str(i[5])))),'|',
+                    i[6],' '*(20-len((str(i[6])))),'|',
+                    i[7],' '*(7-len((str(i[7])))),'|',
+                    i[8],' '*(7-len((str(i[8])))),'|',
+                    i[9],' '*(13-len((str(i[9])))),'|',
+                    i[10],' '*(10-len((str(i[10])))),'|')
+                break
+        print('')
+        input('Press ENTER to return')
         View_Product()
 
     def Cat_Product():
@@ -138,3 +169,5 @@ def View_Product():
         Cat_Product()
     else:
         Menu()
+
+View_Product()
