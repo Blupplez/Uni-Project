@@ -104,10 +104,15 @@ def Account_Del():
         Menu()
 
 def Account_Change():
-    pass
+    print('1. Change Username\n2. Change Password\n3. Back')
+    option = int(input('\nChoose an option: '))
+    while option!= 1 and option != 2 and option!= 3:
+        option = int(input('Choose an option: '))
 
 #Seller Page
 def Product_Page():
+    print('')
+    print('='*15,'Product Page','='*15)
     print("1. Create Product")
     print("2. Edit Product")
     print("3. Delete Product")
@@ -129,18 +134,19 @@ def Product_Page():
     else:
         Menu()
 
+
 #Add new product to database
 def Create_Product():
     productname = input('Enter your product name: ')
     productprice = input('Enter your product price: ')
-    productcost = input('Enter your product cost: ')
-    producttotalprice = input('Enter your product total price: ')
+    productcost = productprice
     productproducedby = input('Enter where your product is produced: ')
-    productexpirydate = input('Enter your product expiry date: yyyy-MM-dd HH:mm:ss ')
+    productexpirydate = input('Enter your product expiry date: yyyy-MM-dd')
     productquantity = input('Enter your product quantity: ')
     productcatergory = input('Enter your product catergory: Fruits or Herbs? ')
     productenterdate = (datetime.today().date())
     sellername = USERNAME
+    producttotalprice = str(int(productprice)*int(productquantity))
     print(f'product name: "{productname}"')
     print(f'product price: RM "{productprice}"')
     print(f'product cost: RM "{productcost}"')
@@ -149,7 +155,7 @@ def Create_Product():
     print(f'product expirydate: "{productexpirydate}"')
     print(f'product quantity: "{productquantity}"')
     print(f'product catergory: "{productcatergory}"')
-    print(f'product name: "{productenterdate}"')
+    print(f'product enter date: "{productenterdate}"')
     print(f'seller name: "{sellername}"')
     connection = sqlite3.connect('SellerProduct.db')
     cursor = connection.cursor()
@@ -164,10 +170,12 @@ def Create_Product():
     print('Added successful.')
     Product_Page()
 
+
 def Edit_ProductInfo():
     connection = sqlite3.connect('SellerProduct.db')
     cursor = connection.cursor()
-    productid = input('Enter the product id for the product u wan to update: ')
+    Seller_Products()
+    productid = input('\nEnter the product id for the product you want to update: ')
     newproductname = input('Enter your product name: ')
     newproductprice = input('Enter your product price: ')
     newproductcost = input('Enter your product cost: ')
@@ -185,10 +193,12 @@ def Edit_ProductInfo():
     connection.close()
     Product_Page()
 
+
 def Delete_Product():
     connection = sqlite3.connect('SellerProduct.db')
     cursor = connection.cursor()
-    deleteid = input('Enter the id of product u wan to delete: ') 
+    Seller_Products()
+    deleteid = input('\nEnter the id of product you want to delete: ') 
     deleteproduct = (f"DELETE from Product where productid = {deleteid}")
     cursor.execute('''SELECT * FROM Product''')
     cursor.execute(deleteproduct)
@@ -197,16 +207,35 @@ def Delete_Product():
     print('Product deleted.')
     Product_Page()
 
+
 def Product_Viewing():
+    Seller_Products()
+    input('\nPress enter to return')
+    Product_Page()
+
+def Seller_Products():
+    print('')
+    print('='*15,'Seller\'s Products','='*15,'\n')
+
     connection = sqlite3.connect('SellerProduct.db')
     cursor = connection.cursor()
-    nickname = USERNAME
-    username = (f"'{nickname}'")
-    ownproductsearch = (f"SELECT * FROM Product where sellername={username}")
-    cursor.execute('''SELECT * FROM Product''')
-    cursor.execute(ownproductsearch)
-    result=cursor.fetchall()
+
+    cursor.execute(f"SELECT * FROM Product WHERE sellername='{USERNAME}'")
+    result = cursor.fetchall()
+
+    print('| Product ID | Product Name | Price | Total Price |   Produce By   |      Expiry Date      | Quantity | Category |   Enter Date   | Seller Name |')
+    print('-'*145)
     for i in result:
-       print(i)
-    x=input('Press enter to return')
-    Product_Page()
+        for x in i:
+            print('|',i[0],' '*(9-len((str(i[0])))),'|',
+                    i[1],' '*(11-len((str(i[1])))),'|',
+                    i[2],' '*(4-len((str(i[2])))),'|',
+                    i[4],' '*(10-len((str(i[4])))),'|',
+                    i[5],' '*(13-len((str(i[5])))),'|',
+                    i[6],' '*(20-len((str(i[6])))),'|',
+                    i[7],' '*(7-len((str(i[7])))),'|',
+                    i[8],' '*(7-len((str(i[8])))),'|',
+                    i[9],' '*(13-len((str(i[9])))),'|',
+                    i[10],' '*(10-len((str(i[10])))),'|')
+            break
+    print('')

@@ -163,15 +163,16 @@ def Edit_Product():
     connection = sqlite3.connect('usercart.db')
     cursor = connection.cursor()
     Print_Cart()
-    therowid = input('Enter the row id of the product: ')
-    quantitychange = input('Enter the new quantity of the product you would like to change: ')
-
-    cursor.execute(f"SELECT * FROM usercart WHERE productid='{therowid}'")
+    therowid = input('\nEnter the row id of the product: ')
+    print('Enter the new quantity of the product you would like to change')
+    quantitychange = int(input('>> '))
+    cursor.execute(f"SELECT * FROM usercart WHERE username='{USERNAME}' AND rowid='{therowid}'")
     result = cursor.fetchall()
 
     for i in result:
         for x in i:
-            newprice = str(int(i[3])*int(quantitychange))
+            newprice = str(int(i[4])*int(quantitychange))
+            break
 
     cursor.execute(f"UPDATE usercart SET productquantity='{quantitychange}' WHERE rowid='{therowid}'")
     cursor.execute(f"UPDATE usercart SET producttotalprice='{newprice}' WHERE rowid='{therowid}'")
@@ -189,7 +190,7 @@ def Delete_Product():
     cursor = connection.cursor()
     Print_Cart()
     therowid = input('Enter the row id of the product: ')
-    deleteproduct = (f"DELETE from usercart where rowid = {therowid}")
+    deleteproduct = (f"DELETE from usercart where rowid='{therowid}'")
     cursor.execute('''SELECT * FROM usercart''')
     cursor.execute(deleteproduct)
     connection.commit()

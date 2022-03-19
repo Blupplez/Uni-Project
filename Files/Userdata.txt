@@ -5,3 +5,4 @@ Ray,123,buyer
 Spiegelbild,123,seller
 Yang,123,buyer
 Username1,Password1,buyer
+Username2,Password2,seller
