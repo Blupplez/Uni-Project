@@ -169,5 +169,3 @@ def View_Product():
         Cat_Product()
     else:
         Menu()
-
-View_Product()
