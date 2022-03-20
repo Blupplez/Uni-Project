@@ -4,20 +4,24 @@ import sys
 import sqlite3
 import Shopping_Cart
 
-USERNAME = None
+USERNAME = str
 PWD = None
-USERTYPE = None
+USERTYPE = str
 
 def Start(Username, Pwd):
     global USERTYPE,USERNAME,PWD
-    with open('Files/Userdata.txt','r') as user:
-        for users in user.readlines():
-            i = users.strip().split(',')
-            if (Username in i) and (Pwd in i):
-                Name, Password, UserType = i
-                USERNAME = Name
-                PWD = Password
-                USERTYPE = UserType
+    connection = sqlite3.connect('fruitsandherbs.db')
+    cursor = connection.cursor()
+    cursor.execute(f"SELECT username,password,usertype FROM userdata WHERE username='{Username}'")
+    result = cursor.fetchall()
+    print(result) 
+    for i in result:
+      if (Username in i[0]) and (Pwd in i[1]) and (USERTYPE in i[2]):  
+            USERNAME = i[0]
+            PWD = i[1]
+            USERTYPE = i[2]
+      else:
+            print('Error')
     Menu()
 
 
@@ -44,17 +48,24 @@ def Menu():
 def Account_Info():
     print('')
     print('='*15,'Account Info','='*15)
-    print(f'Username: {USERNAME}')
-    print(f'Password: {PWD}')
-    print(f'Usertype: {USERTYPE}')
+    connection = sqlite3.connect('fruitsandherbs.db')
+    cursor = connection.cursor()
+    accountname = (f"'{USERNAME}'")
+    checkinfo =(f"SELECT username,usertype,location,phonenumber FROM userdata where username={accountname}")
+    cursor.execute(checkinfo)
+    result=cursor.fetchall()
+    print(result)
+    connection.close()
 
-    print('\n1. Delete Account\n2. Back')
+    print('\n1. Delete Account\n2. Edit Info\n3.Back')
     option = int(input('\nChoose an option: '))
-    while option != 1 and option !=2:
+    while option != 1 and option !=2 and option !=3:
         option = int(input('Choose an option: '))
     
     if option == 1:
         Account_Del()
+    elif option == 2:
+        Edit_Info()
     else:
         Menu()
 
@@ -66,28 +77,32 @@ def Account_Del():
 
     option = option.lower()
 
-    users = []
     if option == 'yes':
-        with open('Files/Userdata.txt','r') as user:
-            for i in user.readlines():
-                i = i.strip().split(',')
-                users.append(i)
-        
-        for i in users:
-            if (USERNAME in i) and (PWD in i):
-                users.remove(i)
-        
-        file = open('Files/Userdata.txt','w')
-        file.close()
-
-        with open('Files/Userdata.txt','a') as user:
-            for i in users:
-                name, password, utype = i
-                user.write(f'{name},{password},{utype}\n')
-        
+        connection = sqlite3.connect('fruitsandherbs.db')
+        cursor = connection.cursor()
+        accountname = (f"'{USERNAME}'")
+        deleteaccount = (f"DELETE from userdata where username = {accountname}")
+        cursor.execute('''SELECT * FROM userdata''')
+        cursor.execute(deleteaccount)
+        connection.commit()
+        connection.close()
         Main.Access()
     elif option == 'no':
         Menu()
+        
+def Edit_Info():
+    sellerpassword = input('Enter your new password')
+    sellerlocation = input('Enter your new location: ')
+    sellerphonenumber = input('Enter your new phone number: ')
+    connection = sqlite3.connect('fruitsandherbs.db')
+    cursor = connection.cursor()
+    updateproduct = (f"UPDATE userdata SET password = '{sellerpassword}',location = '{sellerlocation}',\
+                       phonenumber = '{sellerphonenumber}' WHERE username ={USERNAME};")
+    cursor.execute(updateproduct)
+    
+    connection.commit()
+    connection.close()
+    Menu()
 
 def View_Product():
     print ('\n1. New Product \n2. All Product \n3. Product Category \n4. Back')
@@ -96,7 +111,7 @@ def View_Product():
         option = int(input('Choose an option: '))
 
     def New_Product():
-        connection = sqlite3.connect('SellerProduct.db')
+        connection = sqlite3.connect('fruitsandherbs.db')
         cursor = connection.cursor()
         cursor.execute('''SELECT * FROM Product ORDER BY productid DESC LIMIT 3;''')
         result=cursor.fetchall()
@@ -121,7 +136,7 @@ def View_Product():
         View_Product()
 
     def All_Product():
-        connection = sqlite3.connect('SellerProduct.db')
+        connection = sqlite3.connect('fruitsandherbs.db')
         cursor = connection.cursor()
 
         cursor.execute(f"SELECT * FROM Product")
@@ -148,7 +163,7 @@ def View_Product():
         View_Product()
 
     def Cat_Product():
-        connection = sqlite3.connect('SellerProduct.db')
+        connection = sqlite3.connect('fruitsandherbs.db')
         cursor = connection.cursor()
         catergory = input('enter a catergory (Fruits or Herbs): ')
         cat = (f"'{catergory}'")
@@ -169,5 +184,3 @@ def View_Product():
         Cat_Product()
     else:
         Menu()
-
-View_Product()

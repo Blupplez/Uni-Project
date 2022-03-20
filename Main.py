@@ -28,6 +28,18 @@ import os
 import sys
 import Buyer_Page
 import Seller_Page
+import sqlite3
+
+connection = sqlite3.connect('fruitsandherbs.db')
+cursor = connection.cursor()
+cursor.execute('''CREATE TABLE IF NOT EXISTS userdata(
+                   username TEXT NOT NULL UNIQUE,
+                   password TEXT NOT NULL,
+                   usertype TEXT NOT NULL,
+                   location TEXT NOT NULL,
+                   phonenumber TEXT NOT NULL)''')
+connection.commit()
+connection.close
 
 # Opens Login & Sign In Page
 def Access():
@@ -53,6 +65,9 @@ def Sign_Up():
     print('='*15,'Sign Up','='*15)
     Username = input('\nUsername: ')
     Pwd = input('Password: ')
+    Location = input('Location: ')
+    Phonenumber = input('Phone number: ')
+
     print('\n1. Buyer\n2. Seller')
     option = int(input('\nChoose an option: '))
     while option != 1 and option !=2:
@@ -63,8 +78,12 @@ def Sign_Up():
     else:
         User_Type = 'seller'
 
-    with open('Files/Userdata.txt','a') as user:
-        user.write(f'{Username},{Pwd},{User_Type}\n')
+    connection = sqlite3.connect('fruitsandherbs.db')
+    cursor = connection.cursor()
+    cursor.execute(f'INSERT INTO userdata(username,password,usertype,location,phonenumber) \
+                     VALUES ("{Username}","{Pwd}","{User_Type}","{Location}","{Phonenumber}")')
+    connection.commit()
+    connection.close
 
     if User_Type == 'buyer':
         Buyer_Page.Start(Username, Pwd)
@@ -81,18 +100,19 @@ def Login():
         Username = input('\nUsername: ')
         Pwd = input('Password: ')
 
-        with open('Files/Userdata.txt','r') as user:
-            for users in user.readlines():
-                i = users.strip().split(',')
-                if (Username in i) and (Pwd in i):
-                    name, password, usertype = i
-                    Access = True
-                    if usertype == 'buyer':
-                        Buyer_Page.Start(Username, Pwd)
-                    elif usertype == 'seller':
-                        Seller_Page.Start(Username, Pwd)
-                else:
-                    Access = False
+        connection = sqlite3.connect('fruitsandherbs.db')
+        cursor = connection.cursor()
+        cursor.execute(f"SELECT username,password,usertype FROM userdata WHERE username='{Username}'")
+        result = cursor.fetchall()
+        for i in result:
+         if (Username in i[0]) and (Pwd in i[1]):
+                Access = True
+                if i[2] == 'buyer':
+                    Buyer_Page.Start(Username, Pwd)
+                elif i[2] == 'seller':
+                    Seller_Page.Start(Username, Pwd)
+         else:
+            Access = False
 
 
 # Run the program

@@ -4,24 +4,28 @@ import Main
 import Payment
 import Buyer_Page
 
-USERNAME = None
+USERNAME = str
 PWD = None
-USERTYPE = None
+USERTYPE = str
 
 def Start(Username, Pwd):
     global USERTYPE,USERNAME,PWD
-    with open('Files/Userdata.txt','r') as user:
-        for users in user.readlines():
-            i = users.strip().split(',')
-            if (Username in i) and (Pwd in i):
-                Name, Password, UserType = i
-                USERNAME = Name
-                PWD = Password
-                USERTYPE = UserType
+    connection = sqlite3.connect('fruitsandherbs.db')
+    cursor = connection.cursor()
+    cursor.execute(f"SELECT username,password,usertype FROM userdata WHERE username='{Username}'")
+    result = cursor.fetchall()
+    print(result) 
+    for i in result:
+      if (Username in i[0]) and (Pwd in i[1]) and (USERTYPE in i[2]):  
+            USERNAME = i[0]
+            PWD = i[1]
+            USERTYPE = i[2]
+      else:
+            print('Error')
     Shopping_Menu()
 
 #Create a Shopping Cart for user
-connection = sqlite3.connect("usercart.db")
+connection = sqlite3.connect('fruitsandherbs.db')
 cursor = connection.cursor()
 
 
@@ -35,14 +39,16 @@ cursor.execute('''CREATE TABLE IF NOT EXISTS usercart(
                 productproducedby TEXT NOT NULL,
                 productexpirydate TEXT NOT NULL,
                 producttotalprice TEXT NOT NULL,
-                sellerinformation TEXT NOT NULL)''')
+                sellername TEXT NOT NULL,
+                sellerlocation TEXT NOT NULL,
+                sellerphonenumber TEXT NOT NULL)''')
 
 connection.commit()
 connection.close()
 
 #Print Out for User
 def Print_Cart():
-    connection = sqlite3.connect('usercart.db')
+    connection = sqlite3.connect('fruitsandherbs.db')
     cursor = connection.cursor()
     cursor.execute(f"SELECT * FROM usercart WHERE username='{USERNAME}'")
     result = cursor.fetchall()
@@ -82,7 +88,7 @@ def Print_Cart():
 
 #Print All Product for User
 def Print_Product():
-    connection = sqlite3.connect('SellerProduct.db')
+    connection = sqlite3.connect('fruitsandherbs.db')
     cursor = connection.cursor()
     cursor.execute('''SELECT * FROM Product''')
     output = cursor.fetchall()
@@ -124,7 +130,7 @@ def Shopping_Menu():
 #Add Product for User
 def Add_Product():
     Print_Product()
-    connection = sqlite3.connect('SellerProduct.db')
+    connection = sqlite3.connect('fruitsandherbs.db')
     cursor = connection.cursor()
 
     username = USERNAME
@@ -132,24 +138,34 @@ def Add_Product():
     print('How much would you want to buy?')
     productquantity = input('>> ')
     
-    cursor.execute(f"SELECT * FROM Product WHERE productid='{productid}'")
+    cursor.execute(f"SELECT productname,productprice,productproducedby,productexpirydate,producttotalprice,sellername \
+                     FROM Product WHERE productid='{productid}'")
     result = cursor.fetchall()
 
     for i in result:
         for x in i:
-            productname = i[1]
-            productprice = i[2]
-            productproducedby = i[5]
-            productexpirydate = i[6]
-            producttotalprice = str(int(productprice)*int(productquantity))
-            sellerinformation = i[10]
+            productname = i[0]
+            productprice = i[1]
+            productproducedby = i[2]
+            productexpirydate = i[3]
+            producttotalprice = str(i[4]*int(productquantity))
+            sellername = i[5]
+    
+    cursor.execute(f"SELECT username,location,phonenumber FROM userdata WHERE username='{sellername}'")
+    result = cursor.fetchall()
 
-    connection = sqlite3.connect('usercart.db')
+    for i in result:
+     for x in i:
+        sellername = i[0]
+        sellerlocation = i[1]
+        sellerphonenumber = i[2]
+
+    connection = sqlite3.connect('fruitsandherbs.db')
     cursor = connection.cursor()
     cursor.execute(f'INSERT INTO usercart(username, productid, productname, productprice, productquantity,\
-                     productproducedby, productexpirydate, producttotalprice,sellerinformation) \
-                     VALUES ("{username}","{productid}","{productname}","{productprice}","{productquantity}",\
-                     "{productproducedby}","{productexpirydate}","{producttotalprice}","{sellerinformation}")')
+                     productproducedby, productexpirydate, producttotalprice,sellername,sellerlocation,sellerphonenumber) \
+                     VALUES ("{username}","{productid}","{productname}","{productprice}","{productquantity}","{productproducedby}",\
+                             "{productexpirydate}","{producttotalprice}","{sellername}","{sellerlocation}","{sellerphonenumber}")')
     connection.commit()
     connection.close()
     print('Product successfully added into cart')
@@ -160,7 +176,7 @@ def Add_Product():
 
 #Edit Product for User 
 def Edit_Product():
-    connection = sqlite3.connect('usercart.db')
+    connection = sqlite3.connect('fruitsandherbs.db')
     cursor = connection.cursor()
     Print_Cart()
     therowid = input('\nEnter the row id of the product: ')
@@ -186,7 +202,7 @@ def Edit_Product():
 
 #Delete Product in Cart
 def Delete_Product():
-    connection = sqlite3.connect('usercart.db')
+    connection = sqlite3.connect('fruitsandherbs.db')
     cursor = connection.cursor()
     Print_Cart()
     therowid = input('Enter the row id of the product: ')
