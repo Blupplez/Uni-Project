@@ -63,13 +63,15 @@ def Account_Info():
     print(f'Password: {PWD}')
     print(f'Usertype: {USERTYPE}')
 
-    print('\n1. Delete Account\n2. Back')
+    print('\n1. Delete Account\n2. Change Account Info\n3. Back')
     option = int(input('\nChoose an option: '))
-    while option != 1 and option !=2:
+    while option != 1 and option !=2 and option !=3:
         option = int(input('Choose an option: '))
     
     if option == 1:
         Account_Del()
+    elif option == 2:
+        Account_Change()
     else:
         Menu()
 
@@ -108,6 +110,78 @@ def Account_Change():
     option = int(input('\nChoose an option: '))
     while option!= 1 and option != 2 and option!= 3:
         option = int(input('Choose an option: '))
+    
+    if option == 1:
+        Name_Change()
+    elif option == 2:
+        Pwd_Change()
+    else:
+        Account_Info()
+
+def Name_Change():
+    global USERNAME
+
+    print('New Username')
+    new_name = input('>> ')
+
+    users = []
+    with open('Files/Userdata.txt','r') as user:
+        for i in user.readlines():
+                i = i.strip().split(',')
+                users.append(i)
+        
+        for i in users:
+            if (USERNAME in i) and (PWD in i):
+                userinfo = i
+                users.remove(i)
+        
+        userinfo[0] = new_name
+        users.append(userinfo)
+    
+    file = open('Files/Userdata.txt','w')
+    file.close()
+
+    with open('Files/Userdata.txt','a') as user:
+        for i in users:
+            name, password, utype = i
+            user.write(f'{name},{password},{utype}\n')
+    
+    USERNAME = new_name
+    print('Username Changed\n')
+
+def Pwd_Change():
+    global PWD
+
+    print('New Password')
+    new_pwd = input('>> ')
+
+    users = []
+    with open('Files/Userdata.txt','r') as user:
+        for i in user.readlines():
+                i = i.strip().split(',')
+                users.append(i)
+        
+        for i in users:
+            if (USERNAME in i) and (PWD in i):
+                userinfo = i
+                users.remove(i)
+        
+        userinfo[1] = new_pwd
+        users.append(userinfo)
+    
+    file = open('Files/Userdata.txt','w')
+    file.close()
+
+    with open('Files/Userdata.txt','a') as user:
+        for i in users:
+            name, password, utype = i
+            user.write(f'{name},{password},{utype}\n')
+    
+    PWD = new_pwd
+    print('Password Changed\n')
+    
+    Account_Info()
+
 
 #Seller Page
 def Product_Page():
