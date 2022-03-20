@@ -1,3 +1,4 @@
+from email.mime import base
 import Main
 import os
 import sys
@@ -6,28 +7,11 @@ from datetime import datetime
 
 USERNAME = None
 PWD = None
-USERTYPE = None
 
 #create database if not exist
 connection = sqlite3.connect('fruitsandherbs.db')
 cursor = connection.cursor()
-
-def Start(Username, Pwd):
-    global USERTYPE,USERNAME,PWD
-    connection = sqlite3.connect('fruitsandherbs.db')
-    cursor = connection.cursor()
-    cursor.execute(f"SELECT username,password,usertype FROM userdata WHERE username='{Username}'")
-    result = cursor.fetchall()
-    print(result) 
-    for i in result:
-      if (Username in i[0]) and (Pwd in i[1]):  
-            USERNAME = i[0]
-            PWD = i[1]
-            USERTYPE = i[2]
-      else:
-            print('Error')
-    
-    cursor.execute('''CREATE TABLE IF NOT EXISTS Product(
+cursor.execute('''CREATE TABLE IF NOT EXISTS Product(
                    productid INTEGER PRIMARY KEY,
                    productname TEXT NOT NULL,
                    productprice REAL NOT NULL,
@@ -39,10 +23,24 @@ def Start(Username, Pwd):
                    productcatergory TEXT NOT NULL,
                    productenterdate DATETIME NOT NULL,
                    sellername TEXT NOT NULL)''')
-    connection.commit
-    connection.close()
+connection.commit
+connection.close()
 
+def Start(Username, Pwd):
+    global USERNAME,PWD
+    connection = sqlite3.connect('fruitsandherbs.db')
+    cursor = connection.cursor()
+    cursor.execute(f"SELECT * FROM userdata WHERE username='{Username}'")
+    result = cursor.fetchall()
+    for i in result:
+      if (Username in i) and (Pwd in i):  
+            USERNAME = i[0]
+            PWD = i[1]
+      else:
+            print('Error')
     Menu()
+
+
 
 def Menu():
     print('')
@@ -60,15 +58,14 @@ def Menu():
     else:
         Main.Access()
 
+
 def Account_Info():
     print('')
     print('='*15,'Account Info','='*15)
     connection = sqlite3.connect('fruitsandherbs.db')
     cursor = connection.cursor()
-    accountname = (f"'{USERNAME}'")
-    checkinfo =(f"SELECT username,usertype,location,phonenumber FROM userdata where username={accountname}")
-    cursor.execute(checkinfo)
-    result=cursor.fetchall()
+    cursor.execute(f"SELECT * FROM userdata WHERE username='{USERNAME}'")
+    result = cursor.fetchall()
     print(result)
     connection.close()
 
@@ -80,9 +77,10 @@ def Account_Info():
     if option == 1:
         Account_Del()
     elif option == 2:
-        Edit_Info()
+        Account_Change()
     else:
         Menu()
+
 
 def Account_Del():
     option = input('\nAre you sure you want to delete your account(Yes/No) ')
@@ -94,36 +92,54 @@ def Account_Del():
     if option == 'yes':
         connection = sqlite3.connect('fruitsandherbs.db')
         cursor = connection.cursor()
-        accountname = (f"'{USERNAME}'")
-        deleteaccount = (f"DELETE from userdata where username = {accountname}")
         cursor.execute('''SELECT * FROM userdata''')
-        cursor.execute(deleteaccount)
+        cursor.execute(f"DELETE from userdata WHERE username ='{USERNAME}'")
         connection.commit()
         connection.close()
         Main.Access()
     elif option == 'no':
         Menu()
 
+
 def Account_Change():
-    print('1. Change Username\n2. Change Password\n3. Back')
+    print('')
+    print('='*15,'Edit Info','='*15)
+    print('\n1. Change Username\n2. Change Password\n3. Back')
     option = int(input('\nChoose an option: '))
     while option!= 1 and option != 2 and option!= 3:
         option = int(input('Choose an option: '))
+    
+    if option == 1:
+        Change_Name()
+    elif option == 2:
+        Change_Pwd()
+    else:
+        Account_Info()
 
-def Edit_Info():
-    sellerpassword = input('Enter your new password')
-    sellerlocation = input('Enter your new location: ')
-    sellerphonenumber = input('Enter your new phone number: ')
+
+def Change_Pwd():
+    print('\nEnter your new password')
+    new_pwd = input('>> ')
     connection = sqlite3.connect('fruitsandherbs.db')
     cursor = connection.cursor()
-    updateproduct = (f"UPDATE userdata SET password = '{sellerpassword}',location = '{sellerlocation}',\
-                       phonenumber = '{sellerphonenumber}' WHERE username ={USERNAME};")
-    cursor.execute(updateproduct)
-    
+    cursor.execute(f"UPDATE userdata SET password = '{new_pwd}' WHERE username = '{USERNAME}'")
     connection.commit()
     connection.close()
-    Menu()
-    
+    Account_Info()
+
+
+def Change_Name():
+    global USERNAME
+    print('\nEnter your new username')
+    new_name = input('>> ')
+    connection = sqlite3.connect('fruitsandherbs.db')
+    cursor = connection.cursor()
+    cursor.execute(f"UPDATE userdata SET username = '{new_name}' WHERE username = '{USERNAME}'")
+    connection.commit()
+    connection.close()
+    USERNAME = new_name
+    Account_Info()
+
 
 #Seller Page
 def Product_Page():
@@ -155,14 +171,20 @@ def Product_Page():
 def Create_Product():
     productname = input('Enter your product name: ')
     productprice = input('Enter your product price: ')
-    productcost = input('Enter your product cost: ')
+    productcost = productprice
     productproducedby = input('Enter where your product is produced: ')
-    productexpirydate = input('Enter your product expiry date: yyyy-MM-dd')
+    productexpirydate = input('Enter your product expiry date (yyyy-MM-dd): ')
     productquantity = input('Enter your product quantity: ')
-    productcatergory = input('Enter your product catergory: Fruits or Herbs? ')
+    print('Product catergory: Fruits or Herbs? ')
+    print('\n1. Fruits\n2. Herbs')
+    option = input('>> ')
+    if option == 1:
+        productcategory = 'Fruits'
+    else:
+        productcategory = 'Herbs'
     productenterdate = (datetime.today().date())
     sellername = USERNAME
-    producttotalprice = str(int(productprice)+int(productcost))
+    producttotalprice = str(float(productprice)*float(productquantity))
     print(f'product name: "{productname}"')
     print(f'product price: RM "{productprice}"')
     print(f'product cost: RM "{productcost}"')
@@ -170,7 +192,7 @@ def Create_Product():
     print(f'product producedby: "{productproducedby}"')
     print(f'product expirydate: "{productexpirydate}"')
     print(f'product quantity: "{productquantity}"')
-    print(f'product catergory: "{productcatergory}"')
+    print(f'product catergory: "{productcategory}"')
     print(f'product enter date: "{productenterdate}"')
     print(f'seller name: "{sellername}"')
     connection = sqlite3.connect('fruitsandherbs.db')
@@ -180,7 +202,7 @@ def Create_Product():
                                          productcatergory,productenterdate,sellername) \
                                          VALUES ("{productname}","{productprice}","{productcost}",\
                                          "{producttotalprice}","{productproducedby}","{productexpirydate}",\
-                                         "{productquantity}","{productcatergory}","{productenterdate}","{sellername}")')
+                                         "{productquantity}","{productcategory}","{productenterdate}","{sellername}")')
     connection.commit()
     connection.close()  
     print('Added successful.')
@@ -225,9 +247,24 @@ def Delete_Product():
 
 
 def Product_Viewing():
-    Seller_Products()
+    connection = sqlite3.connect('fruitsandherbs.db')
+    cursor = connection.cursor()
+    cursor.execute(f"SELECT * FROM Product WHERE sellername='{USERNAME}'")
+    result = cursor.fetchall()
+
+    items = 0
+    for i in result:
+        items +=1
+    
+    if items == 0:
+        print('\nNo Items Selling')
+        pass
+    else:
+        Seller_Products()
+    
     input('\nPress enter to return')
     Product_Page()
+
 
 def Seller_Products():
     print('')

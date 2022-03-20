@@ -4,22 +4,18 @@ import Main
 import Payment
 import Buyer_Page
 
-USERNAME = str
+USERNAME = None
 PWD = None
-USERTYPE = str
 
-def Start(Username, Pwd):
-    global USERTYPE,USERNAME,PWD
+def Start(Username,Pwd):
+    global USERNAME, PWD
     connection = sqlite3.connect('fruitsandherbs.db')
     cursor = connection.cursor()
-    cursor.execute(f"SELECT username,password,usertype FROM userdata WHERE username='{Username}'")
+    cursor.execute(f"SELECT * FROM userdata WHERE username='{Username}'")
     result = cursor.fetchall()
-    print(result) 
     for i in result:
-      if (Username in i[0]) and (Pwd in i[1]) and (USERTYPE in i[2]):  
+      if (Username in i) and (Pwd in i):  
             USERNAME = i[0]
-            PWD = i[1]
-            USERTYPE = i[2]
       else:
             print('Error')
     Shopping_Menu()
@@ -45,6 +41,7 @@ cursor.execute('''CREATE TABLE IF NOT EXISTS usercart(
 
 connection.commit()
 connection.close()
+
 
 #Print Out for User
 def Print_Cart():
@@ -86,6 +83,7 @@ def Print_Cart():
     connection.commit()
     connection.close()
 
+
 #Print All Product for User
 def Print_Product():
     connection = sqlite3.connect('fruitsandherbs.db')
@@ -124,7 +122,6 @@ def Shopping_Menu():
         Proceed_Payment()
     else:
         Buyer_Page.Menu()
-
 
 
 #Add Product for User
@@ -172,8 +169,6 @@ def Add_Product():
     Shopping_Menu()
 
 
-
-
 #Edit Product for User 
 def Edit_Product():
     connection = sqlite3.connect('fruitsandherbs.db')
@@ -198,8 +193,6 @@ def Edit_Product():
     Shopping_Menu()
 
 
-
-
 #Delete Product in Cart
 def Delete_Product():
     connection = sqlite3.connect('fruitsandherbs.db')
@@ -215,9 +208,10 @@ def Delete_Product():
     Shopping_Menu()
 
 
-
 #Proceed to Payment
 def Proceed_Payment():
+    Pwd = PWD
+    Username = USERNAME
     print('')
     print('='*15,'Payment','='*15)
     print('Are you sure you want to proceed to payment')
@@ -229,6 +223,6 @@ def Proceed_Payment():
         option = int(input('Choose an option: '))
     
     if option == 1:
-        Payment.Start(USERNAME ,PWD)
+        Payment.Start(Username,Pwd)
     elif option == 2:
         Shopping_Menu()

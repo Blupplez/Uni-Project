@@ -102,10 +102,10 @@ def Login():
 
         connection = sqlite3.connect('fruitsandherbs.db')
         cursor = connection.cursor()
-        cursor.execute(f"SELECT username,password,usertype FROM userdata WHERE username='{Username}'")
+        cursor.execute(f"SELECT * FROM userdata WHERE username='{Username}'")
         result = cursor.fetchall()
         for i in result:
-         if (Username in i[0]) and (Pwd in i[1]):
+         if (Username in i) and (Pwd in i):
                 Access = True
                 if i[2] == 'buyer':
                     Buyer_Page.Start(Username, Pwd)

@@ -4,28 +4,26 @@ import Main
 import Shopping_Cart
 
 USERNAME = None
-PWD = None
-USERTYPE = None
 
 def Start(Username, Pwd):
-    global USERTYPE,USERNAME,PWD
-    with open('Files/Userdata.txt','r') as user:
-        for users in user.readlines():
-            i = users.strip().split(',')
-            if (Username in i) and (Pwd in i):
-                Name, Password, UserType = i
-                USERNAME = Name
-                PWD = Password
-                USERTYPE = UserType
-    
+    global USERNAME
+    connection = sqlite3.connect('fruitsandherbs.db')
+    cursor = connection.cursor()
+    cursor.execute(f"SELECT * FROM userdata WHERE username='{Username}'")
+    result = cursor.fetchall()
+    for i in result:
+      if (Username in i) and (Pwd in i):  
+            USERNAME = i[0]
+      else:
+            print('Error')
     Confirm_Payment()
 
 
 def Available_Product():
-        connection = sqlite3.connect('SellerProduct.db')
+        connection = sqlite3.connect('fruitsandherbs.db')
         cursor = connection.cursor()
 
-        cursor.execute('''SELECT productname,productprice,productcost,producttotalprice,sellername
+        cursor.execute('''SELECT *
         FROM Product 
         WHERE productquantity >= 1''')
 
@@ -36,17 +34,17 @@ def Available_Product():
         print('-'*63)
         for i in result:
             for x in i:
-                print('|',i[0],' '*(11-len((str(i[0])))),'|',
-                          i[1],' '*(6-len((str(i[1])))),'|',
-                          i[2],' '*(5-len((str(i[2])))),'|',
-                          i[3],' '*(10-len((str(i[3])))),'|',
-                          i[4],' '*(10-len((str(i[4])))),'|')
+                print('|',i[1],' '*(11-len((str(i[1])))),'|',
+                          i[2],' '*(6-len((str(i[2])))),'|',
+                          i[3],' '*(5-len((str(i[3])))),'|',
+                          i[4],' '*(10-len((str(i[4])))),'|',
+                          i[10],' '*(10-len((str(i[10])))),'|')
                 break
         print('\n')
 
 
 def Confirm_Payment():
-    connection = sqlite3.connect('usercart.db')
+    connection = sqlite3.connect('fruitsandherbs.db')
     cursor = connection.cursor()
     # Show Shopping Cart Before Payment
     print('\n','='*15,'Your Shopping Cart','='*15)
