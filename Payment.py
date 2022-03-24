@@ -1,3 +1,29 @@
+'''
+********** ********** ********** ********** **********
+Code Filename: Payment.py
+Course: PSP0201 Mini IT Project 
+Trimester: 2120
+Lecture Section: TC1V
+Tutorial Section: TL1V
+
+Student Name as per MMU 1: Imran Syahmi bin Shahridan
+Student ID 1: 1201103195
+Email 1: 1201103195@student.mmu.edu.my
+
+Student Name as per MMU 2: Chua Kee Ray
+Student ID 2: 1201103232
+Email 2: 1201103232@student.mmu.edu.my
+
+Student Name as per MMU 3: Tan Swee jen
+Student ID 3: 1201103464
+Email 3: 1201103464@student.mmu.edu.my
+
+Student Name as per MMU 4: Ng Zhi Yang
+Student ID 4: 1201103665
+Email 4: 1201103665@student.mmu.edu.my
+********** ********** ********** ********** **********
+'''
+
 import sqlite3
 import sys
 import Main
