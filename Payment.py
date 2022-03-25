@@ -38,10 +38,7 @@ def Start(Username, Pwd):
     cursor.execute(f"SELECT * FROM userdata WHERE username='{Username}'")
     result = cursor.fetchall()
     for i in result:
-      if (Username in i) and (Pwd in i):  
-            USERNAME = i[0]
-      else:
-            print('Error')
+        USERNAME = i[0]
     Confirm_Payment()
 
 
@@ -70,6 +67,7 @@ def Available_Product():
 
 
 def Confirm_Payment():
+    print(USERNAME)
     connection = sqlite3.connect('fruitsandherbs.db')
     cursor = connection.cursor()
     # Show Shopping Cart Before Payment

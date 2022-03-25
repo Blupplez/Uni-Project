@@ -40,10 +40,7 @@ def Start(Username,Pwd):
     cursor.execute(f"SELECT * FROM userdata WHERE username='{Username}'")
     result = cursor.fetchall()
     for i in result:
-      if (Username in i) and (Pwd in i):  
-            USERNAME = i[0]
-      else:
-            print('Error')
+        USERNAME = i[0]
     Shopping_Menu()
 
 #Create a Shopping Cart for user
