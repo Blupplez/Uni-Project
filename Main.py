@@ -75,7 +75,7 @@ def Sign_Up():
     
     if option == 1:
         User_Type = 'buyer'
-    else:
+    elif option == 2:
         User_Type = 'seller'
 
     connection = sqlite3.connect('fruitsandherbs.db')
