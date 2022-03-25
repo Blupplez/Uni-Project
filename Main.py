@@ -78,8 +78,17 @@ def Sign_Up():
     elif option == 2:
         User_Type = 'seller'
 
+    repeat=0
     connection = sqlite3.connect('fruitsandherbs.db')
     cursor = connection.cursor()
+    cursor.execute(f"SELECT * FROM userdata WHERE username='{Username}'")
+    result = cursor.fetchall()
+    for i in result:
+        repeat+=1
+    if repeat==1:
+        print ('The username is used, please register with another username')
+        Sign_Up()
+
     cursor.execute(f'INSERT INTO userdata(username,password,usertype,location,phonenumber) \
                      VALUES ("{Username}","{Pwd}","{User_Type}","{Location}","{Phonenumber}")')
     connection.commit()
