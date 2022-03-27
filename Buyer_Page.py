@@ -214,14 +214,8 @@ def View_Product():
     def Cat_Product():
         connection = sqlite3.connect('fruitsandherbs.db')
         cursor = connection.cursor()
-
-        print('\n1. Fruits\n2. Herbs')
-        option = input('>> ')
-        if option == 1:
-            cat = 'Fruits'
-        else:
-            cat = 'Herbs'
-
+        print ('Enter a catergory: Fruits or Herbs')
+        cat = input(">>")
         cursor.execute(f"SELECT * FROM Product where productcatergory='{cat}'")
         result = cursor.fetchall()
         print('| Product ID | Product Name |   Price   | Total Price |   Produce By   |      Expiry Date      | Quantity | Category |   Enter Date   | Seller Name |')
