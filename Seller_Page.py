@@ -241,12 +241,17 @@ def Edit_ProductInfo():
     productid = input('\nEnter the product id for the product you want to update: ')
     newproductname = input('Enter your product name: ')
     newproductprice = input('Enter your product price: ')
-    newproductcost = input('Enter your product cost: ')
+    newproductcost = newproductprice
     newproducttotalprice = input('Enter your product total price: ')
     newproductproducedby = input('Enter where your product is produced: ')
-    newproductexpirydate = input('Enter your product expiry date: yyyy-MM-dd HH:mm:ss ')
+    newproductexpirydate = input('Enter your product expiry date (yyyy-MM-dd): ')
     newproductquantity = input('Enter your product quantity: ')
-    newproductcatergory = input('Enter your product catergory: Fruits or Herbs? ')
+    print('Product catergory: Fruits or Herbs? ')
+    print('\n1. Fruits\n2. Herbs')
+    
+    choice = ['Error','Fruits','Herbs']
+    option = int(input('>> '))
+    newproductcatergory = choice(option)
     updateproduct = (f"UPDATE Product SET productname = '{newproductname}', productprice = {newproductprice},\
                        productcost = {newproductcost}, producttotalprice = {newproducttotalprice},\
                        productproducedby = '{newproductproducedby}', productexpirydate = '{newproductexpirydate}',\
