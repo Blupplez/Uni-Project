@@ -251,7 +251,7 @@ def Edit_ProductInfo():
     
     choice = ['Error','Fruits','Herbs']
     option = int(input('>> '))
-    newproductcatergory = choice(option)
+    newproductcatergory = choice[option]
     updateproduct = (f"UPDATE Product SET productname = '{newproductname}', productprice = {newproductprice},\
                        productcost = {newproductcost}, producttotalprice = {newproducttotalprice},\
                        productproducedby = '{newproductproducedby}', productexpirydate = '{newproductexpirydate}',\
