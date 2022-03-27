@@ -200,13 +200,7 @@ def Create_Product():
     productproducedby = input('Enter where your product is produced: ')
     productexpirydate = input('Enter your product expiry date (yyyy-MM-dd): ')
     productquantity = input('Enter your product quantity: ')
-    print('Product catergory: Fruits or Herbs? ')
-    print('\n1. Fruits\n2. Herbs')
-    
-    choice = ['Error','Fruits','Herbs']
-    option = int(input('>> '))
-
-    productcatergory = choice[option]
+    productcatergory = input('Enter your product catergory: Fruits or Herbs \n>>')
     productenterdate = (datetime.today().date())
     sellername = USERNAME
     producttotalprice = str(float(productprice)*float(productquantity))
