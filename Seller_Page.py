@@ -242,10 +242,10 @@ def Edit_ProductInfo():
     newproductname = input('Enter your product name: ')
     newproductprice = input('Enter your product price: ')
     newproductcost = newproductprice
-    newproducttotalprice = input('Enter your product total price: ')
     newproductproducedby = input('Enter where your product is produced: ')
     newproductexpirydate = input('Enter your product expiry date (yyyy-MM-dd): ')
     newproductquantity = input('Enter your product quantity: ')
+    newproducttotalprice = str(float(newproductprice)*float(newproductquantity))
     print('Product catergory: Fruits or Herbs? ')
     print('\n1. Fruits\n2. Herbs')
     
