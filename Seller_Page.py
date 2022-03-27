@@ -202,8 +202,10 @@ def Create_Product():
     productquantity = input('Enter your product quantity: ')
     print('Product catergory: Fruits or Herbs? ')
     print('\n1. Fruits\n2. Herbs')
+    
     choice = ['Error','Fruits','Herbs']
     option = int(input('>> '))
+
     productcatergory = choice[option]
     productenterdate = (datetime.today().date())
     sellername = USERNAME
