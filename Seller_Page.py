@@ -202,11 +202,9 @@ def Create_Product():
     productquantity = input('Enter your product quantity: ')
     print('Product catergory: Fruits or Herbs? ')
     print('\n1. Fruits\n2. Herbs')
-    option = input('>> ')
-    if option == 1:
-        productcategory = 'Fruits'
-    else:
-        productcategory = 'Herbs'
+    choice = ['Error','Fruits','Herbs']
+    option = int(input('>> '))
+    productcatergory = choice[option]
     productenterdate = (datetime.today().date())
     sellername = USERNAME
     producttotalprice = str(float(productprice)*float(productquantity))
@@ -217,7 +215,7 @@ def Create_Product():
     print(f'product producedby: "{productproducedby}"')
     print(f'product expirydate: "{productexpirydate}"')
     print(f'product quantity: "{productquantity}"')
-    print(f'product catergory: "{productcategory}"')
+    print(f'product catergory: "{productcatergory}"')
     print(f'product enter date: "{productenterdate}"')
     print(f'seller name: "{sellername}"')
     connection = sqlite3.connect('fruitsandherbs.db')
@@ -227,7 +225,7 @@ def Create_Product():
                                          productcatergory,productenterdate,sellername) \
                                          VALUES ("{productname}","{productprice}","{productcost}",\
                                          "{producttotalprice}","{productproducedby}","{productexpirydate}",\
-                                         "{productquantity}","{productcategory}","{productenterdate}","{sellername}")')
+                                         "{productquantity}","{productcatergory}","{productenterdate}","{sellername}")')
     connection.commit()
     connection.close()  
     print('Added successful.')
